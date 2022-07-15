@@ -387,7 +387,6 @@ const MusicList7 = () => {
 
 .slider-demo-block .demonstration {
   font-size: 14px;
-  @click= "startPlayOrpause"
   color: var(--el-text-color-secondary);
   line-height: 44px;
   flex: 1;
