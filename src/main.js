@@ -9,6 +9,7 @@ import { install } from '@icon-park/vue-next/es/all';
 import piniaPluginPersistedstate from 'pinia-plugin-persistedstate'
 const pinia = createPinia()
 pinia.use(piniaPluginPersistedstate)
+import 'default-passive-events'
 const app = createApp(App)
 install(app);
 install(app, 'i');

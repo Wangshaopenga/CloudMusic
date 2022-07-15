@@ -23,7 +23,7 @@ const routes = [
     {
         path: '/test',
         name: 'test',
-        components: { app: () => import('@/components/Home/Player.vue') }
+        components: { app: () => import('@/components/Home/Header.vue') }
     },
     {
         path: '/header',

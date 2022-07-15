@@ -12,8 +12,8 @@
     <div class="m-tandc">
       <img :src="showCover + '?param=91y91'" alt="" />
       <div class="titleandsinger">
-        <a href="javascript:;" style="color: #000">{{ showName }}</a>
-        <a href="javascript:;" style="font-size: 13px">{{ showSinger }}</a>
+        <a style="color: #000">{{ showName }}</a>
+        <a style="font-size: 13px">{{ showSinger }}</a>
       </div>
     </div>
     <div class="btns">
@@ -22,52 +22,64 @@
       <div class="aplayer">
         <!-- 歌曲列表 -->
         <div class="m-btns">
-          <a href="javascript:;" @click="orderPlay">
-            <img src="@/assets/img/aplayer/序列.svg" alt="" class="Musicice" />
-          </a>
-          <a href="javascript:;" @click="randomPlay">
-            <img src="@/assets/img/aplayer/随机.svg" alt="" class="Musicice" />
-          </a>
-          <a href="javascript:;" @click="lastMusicpd">
+          <a @click="lastMusicpd">
             <img
               src="@/assets/img/aplayer/上一首.svg"
               alt=""
               class="Musicice"
             />
           </a>
-          <a href="javascript:;" @click="startPlayOrpause">
+          <a @click="startPlayOrpause">
             <img :src="aplayer" alt="" />
           </a>
-          <a href="javascript:;" @click="nextMusicpd">
+          <a @click="nextMusicpd">
             <img
               src="@/assets/img/aplayer/下一首.svg"
               alt=""
               class="Musicice"
             />
           </a>
-          <a href="javascript:;" @click="singlePlay">
+          <a @click="changePlayMode">
             <img
-              src="@/assets/img/aplayer/单曲循环.svg"
-              alt=""
+              :src="`src/assets/img/aplayer/${
+                playModeInfo[store.playMode]
+              }.svg`"
               class="Musicice"
             />
           </a>
-          <a href="javascript:;" @click="cyclePlay">
-            <img src="@/assets/img/aplayer/循环.svg" alt="" class="Musicice" />
-          </a>
         </div>
         <div class="slider-demo-block rightvoice">
-          <a href="javascript:;"
-            ><img src="@/assets/img/aplayer/声音.svg" alt="" width="20"
-          /></a>
+          <a>
+            <img
+              v-show="store.volumes != 0"
+              src="@/assets/img/aplayer/声音.svg"
+              alt=""
+              width="20"
+              @click="
+                lastVolumes = store.volumes;
+                store.volumes = 0;
+                changevolumes();
+              "
+            />
+            <img
+              v-show="store.volumes == 0"
+              src="@/assets/img/aplayer/静音.svg"
+              alt=""
+              width="20"
+              @click="
+                store.volumes = lastVolumes;
+                changevolumes();
+              "
+            />
+          </a>
           <!-- 音量条 -->
           <el-slider
-            v-model="volumes"
+            v-model="store.volumes"
             @change="changevolumes"
             style="width: 70px"
             :show-tooltip="true"
           />
-          <a href="javascript:;" @click="MusicList7">
+          <a @click="MusicList7">
             <!-- <span class="notification-number">{{
               store.showMusicinfo.length
             }}</span> -->
@@ -83,6 +95,7 @@
             v-model="progress"
             :show-tooltip="false"
             @change="chancurren"
+            @click="chancurren"
             style="width: 400px"
           />
         </div>
@@ -94,7 +107,6 @@
   </div>
 </template>
 <script setup>
-// import "@/assets/css/Player.scss";
 import { ref, reactive, computed, onMounted, watch } from "vue";
 import { useStore } from "@/store/user";
 import { useRouter } from "vue-router";
@@ -119,7 +131,6 @@ const audiobox1 = computed(() => {
 });
 
 let audio = ref();
-
 let aplayer = ref(playermusic);
 // let aplayer = ref(await import('@/assets/img/aplayer/播放.svg'));
 // 当前时间
@@ -132,12 +143,11 @@ let progress = ref();
 // 默认暂停状态
 let playing = false;
 
-// 歌曲音量
-let volumes = ref(70);
 //当前播放的是第几首歌曲
-let i = ref();
+let i = ref(store.playi);
 i = store.playi;
 
+let lastVolumes = ref(store.volumes);
 //切换歌曲是自动更新歌曲信息
 watch(
   () => store.playi,
@@ -152,7 +162,12 @@ watch(
     audioplay();
   }
 );
-
+// watch(
+//   () => store.volumes,
+//   () => {
+//     console.log(store.volumes, audio.value.volume);
+//   }
+// );
 watch(
   () => store.showmvstop,
   () => {
@@ -163,10 +178,13 @@ watch(
 );
 
 let audiobox = reactive([{}]);
-audiobox = audiobox1.value;//歌曲列表
-let playMode = 1; //0:一次性(默认) 1：顺序 2：循环 3：随机
-
-// 显示内容
+audiobox = audiobox1.value; //歌曲列表
+//0:一次性(默认) 1：顺序 2：循环 3：随机
+let playModeInfo = ["序列", "循环", "单曲循环", "随机"];
+const changePlayMode = () => {
+  store.playMode = (store.playMode + 1) % 4;
+};
+// 默认显示内容
 let showName = ref("未知歌曲");
 let showCover = ref(
   "https://assets.missevan.com/coversmini/202112/13/3b58840d0dda4f7bdecc6da73ee843c9231731.png"
@@ -179,29 +197,6 @@ const musicmodemsg = (msg) => {
     message: msg,
     type: "success",
   });
-};
-// 单曲播放
-const singlePlay = () => {
-  playMode = 0;
-
-  musicmodemsg("单曲播放");
-  // console.log(audiobox);
-  // console.log(store.showMusicinfo);
-};
-// 顺序
-const orderPlay = () => {
-  playMode = 1;
-  musicmodemsg("顺序播放");
-};
-//循环
-const cyclePlay = () => {
-  playMode = 2;
-  musicmodemsg("单曲循环");
-};
-// 随机播放
-const randomPlay = () => {
-  playMode = 3;
-  musicmodemsg("随机播放");
 };
 
 // 随机播放方法
@@ -224,12 +219,16 @@ const nextMusic = () => {
   showName.value = song.musicname;
   showSinger.value = song.singer;
   showCover.value = song.cover;
+  // if (store.playMode == 3) {
+  //   console.log(store.playMode);
+  //   randdomPlayfn();
+  // }
   audioplay();
 };
 const nextMusicpd = () => {
-  if (playMode == 1) {
+  if (store.playMode == 1) {
     nextMusic();
-  } else if (playMode == 3) {
+  } else if (store.playMode == 3) {
     pause();
     randdomPlayfn();
     if (i != 0) i = 0;
@@ -257,9 +256,9 @@ const lastMusic = () => {
 };
 
 const lastMusicpd = () => {
-  if (playMode == 1) {
+  if (store.playMode == 1) {
     lastMusic();
-  } else if (playMode == 3) {
+  } else if (store.playMode == 3) {
     pause();
     randdomPlayfn();
     if (i != 0) i = 0;
@@ -283,9 +282,8 @@ const chancurren = () => {
 };
 // 改变音量
 const changevolumes = () => {
-  let ct = volumes.value / 100;
   // if (!isNan(ct)) {
-  audio.value.volume = ct;
+  audio.value.volume = store.volumes / 100;
   // }
   // console.log(ct);
 };
@@ -296,7 +294,7 @@ const getCurr = () => {
   // console.log(MusiccurrentTime.value);
   progress.value = (MusiccurrentTime.value / Musicduration.value) * 100;
   if (MusiccurrentTime.value == Musicduration.value) {
-    switch (playMode) {
+    switch (store.playMode) {
       //0:一次性(默认) 1：顺序 2：循环 3：随机
       case 0:
         pause();
@@ -328,9 +326,6 @@ const getCurr = () => {
 const onLoadedmetadata = () => {
   // duration 期间
   Musicduration.value = parseInt(audio.value.duration);
-  // console.log();
-  // 默认声音70%
-  volumes.value = parseInt(audio.value.volume) * 70;
 };
 
 const toTime = (sec) => {
@@ -407,9 +402,30 @@ const MusicList7 = () => {
 }
 
 .el-slider__button-wrapper {
-  display: none;
+  // display: none;
+  width: 10px;
+  height: 10px;
+  top: -140%;
 }
-
+.el-slider__button-wrapper .el-tooltip__trigger {
+  width: 10px;
+  height: 10px;
+}
+.slider-demo-block .demonstration + .el-slider {
+  flex: 0 0 70%;
+}
+.el-slider__button-wrapper.hover,
+.el-slider__button-wrapper:hover {
+  cursor: pointer;
+}
+.el-slider__button-wrapper.hover,
+.el-slider__button-wrapper:hover {
+  cursor: pointer;
+}
+.el-slider__button.hover,
+.el-slider__button:hover {
+  cursor: pointer;
+}
 .playerbox {
   // display: flex;
   flex-direction: row;
@@ -461,7 +477,9 @@ const MusicList7 = () => {
     margin: 5px 10px 0;
   }
 }
-
+a {
+  cursor: pointer;
+}
 .Musicice {
   width: 22px;
   margin-top: 5px;
@@ -488,7 +506,6 @@ const MusicList7 = () => {
   a {
     padding: 8px;
     text-decoration: none;
-    color: var(--theme-color);
     display: flex;
     align-items: center;
     font-weight: 400;

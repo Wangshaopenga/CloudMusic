@@ -14,7 +14,7 @@ export const useStore = defineStore('stroe', {
             audioxbox: [
                 {
                     id: "1",
-                    al: "境界的彼方",
+                    al: "境界的彼方1",
                     dt: "04:33",
                     musicname: "daisy",
                     singer: "STEREO DIVE FOUNDATION",
@@ -25,7 +25,7 @@ export const useStore = defineStore('stroe', {
                     id: "2",
                     al: "乱",
                     dt: "05:13",
-                    musicname: "最好的我",
+                    musicname: "最好的我2",
                     singer: "房祖名",
                     url: "https://sound-ks1.cdn.missevan.com/aod/202112/13/76e0f45f3b756cb5fd82f4024a7e4b7e.m4a",
                     cover: "https://static.missevan.com/coversmini/202202/25/cf7a067b1fa9fa1e637f142961d34634183055.jpg"
@@ -34,15 +34,16 @@ export const useStore = defineStore('stroe', {
                     id: "3",
                     al: "",
                     dt: "02:08",
-                    musicname: "Intro",
+                    musicname: "Intro3",
                     singer: "#ラブリーミュージック",
                     url: "https://sound-ks1.cdn.missevan.com/aod/202106/14/f14b848a15d6357bf2b5dc9c14fcb633.m4a",
                     cover: "https://static.missevan.com/coversmini/202106/14/903d0dd3ad908b9c92e20879f55844c2164802.png"
-
                 },
             ],
-            i: 0,//
+            i: 0,//播放的是第几首歌曲
             playmvstop: false,
+            volumes: 70,//音量
+            playMode:0,//列表播放类型  0:一次性(默认) 1：顺序 2：循环 3：随机
         }
     },
     getters: {
