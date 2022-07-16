@@ -23,12 +23,7 @@ const routes = [
     {
         path: '/test',
         name: 'test',
-        components: { app: () => import('@/components/Home/Header.vue') }
-    },
-    {
-        path: '/header',
-        name: 'header',
-        components: { app: () => import('@/components/Home/Header.vue') }
+        components: { app: () => import('@/components/Home/123.vue') }
     },
 ];
 const router = createRouter({

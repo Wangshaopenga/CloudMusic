@@ -10,11 +10,10 @@
   "dependencies": {
     "@icon-park/vue-next": "^1.4.2",
     "axios": "^0.27.2",
-    "default-passive-events": "^2.0.0",
     "element-plus": "^2.2.9",
     "path": "^0.12.7",
     "pinia": "^2.0.14",
-    "pinia-plugin-persistedstate": "^1.6.1",
+    "pinia-plugin-persistedstate": "^1.6.3",
     "vue": "^3.2.25",
     "vue-router": "4"
   },

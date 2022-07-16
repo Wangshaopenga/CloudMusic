@@ -39,23 +39,55 @@ export const useStore = defineStore('stroe', {
                     url: "https://sound-ks1.cdn.missevan.com/aod/202106/14/f14b848a15d6357bf2b5dc9c14fcb633.m4a",
                     cover: "https://static.missevan.com/coversmini/202106/14/903d0dd3ad908b9c92e20879f55844c2164802.png"
                 },
+                // {
+                //     id: "4",
+                //     al: "",
+                //     dt: "02:08",
+                //     musicname: "Intro4",
+                //     singer: "#ラブリーミュージック",
+                //     url: "https://sound-ks1.cdn.missevan.com/aod/202106/14/f14b848a15d6357bf2b5dc9c14fcb633.m4a",
+                //     cover: "https://static.missevan.com/coversmini/202106/14/903d0dd3ad908b9c92e20879f55844c2164802.png"
+                // },
+                // {
+                //     id: "5",
+                //     al: "",
+                //     dt: "02:08",
+                //     musicname: "Intro5",
+                //     singer: "#ラブリーミュージック",
+                //     url: "https://sound-ks1.cdn.missevan.com/aod/202106/14/f14b848a15d6357bf2b5dc9c14fcb633.m4a",
+                //     cover: "https://static.missevan.com/coversmini/202106/14/903d0dd3ad908b9c92e20879f55844c2164802.png"
+                // },
+                // {
+                //     id: "6",
+                //     al: "",
+                //     dt: "02:08",
+                //     musicname: "Intro6",
+                //     singer: "#ラブリーミュージック",
+                //     url: "https://sound-ks1.cdn.missevan.com/aod/202106/14/f14b848a15d6357bf2b5dc9c14fcb633.m4a",
+                //     cover: "https://static.missevan.com/coversmini/202106/14/903d0dd3ad908b9c92e20879f55844c2164802.png"
+                // },
             ],
-            i: 0,//播放的是第几首歌曲
+            playNumber: 0,//播放的是第几首歌曲
             playmvstop: false,
             volumes: 70,//音量
-            playMode:0,//列表播放类型  0:一次性(默认) 1：顺序 2：循环 3：随机
+            playMode: 0,//列表播放类型 0：顺序 1：循环 2：随机
         }
     },
     getters: {
-        showMusicinfo(state) {
-            return state.audioxbox
-        },
-        playi(state) {
-            return state.i
-        },
         showmvstop(state) {
             return state.playmvstop
         },
+        changePlay(state) {
+            return 
+        }
     },
-    persist: true
+    persist: {
+        enabled: true, // 开启数据缓存
+        strategies: [
+            {
+                key: 'myuser',
+                storage: localStorage // 默认是sessionStorage
+            }
+        ],
+    }
 })
