@@ -8,7 +8,7 @@ export function getSlider() {
 }
 
 //获取推荐歌单  不需要登录
-export function getPersonalized(limit = 8) {
+export function getPersonalized(limit = 16) {
     return request({
         url: `/personalized?limit=${limit}`
     })

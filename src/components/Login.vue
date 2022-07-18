@@ -145,7 +145,7 @@
 
 <script setup>
 import { onMounted, reactive, ref } from "vue";
-import { checkQrStatus, createQr, getQrLoginKey } from "../../network/login";
+import { checkQrStatus, createQr, getQrLoginKey } from "../network/login";
 import { Close, Loading } from "@icon-park/vue-next";
 import { useStore } from "@/store/user";
 import { ElMessage } from "element-plus";

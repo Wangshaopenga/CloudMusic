@@ -1,14 +1,15 @@
 <template>
 	<div ref="container" class="container">
+		<!-- <el-button @click="f">发送</el-button> -->
 		<Siderbar :is-collapse="isCollapse"></Siderbar>
-		<el-button @click="f">发送</el-button>
 		<div class="wrapper">
-			<Header></Header>
+			<Header />
 			<router-view name="content"></router-view>
 		</div>
 		<Transition>
 			<Login v-if="store.isLogin" class="login" />
 		</Transition>
+		<!-- <play /> -->
 	</div>
 	<Player class="player" />
 </template>
@@ -16,8 +17,9 @@
 <script setup>
 import Siderbar from "@/components/Home/Siderbar.vue";
 import Header from "@/components/Home/Header.vue";
-import Login from "@/components/Home/Login.vue";
+import Login from "@/components/Login.vue";
 import Player from "@/components/Home/Player.vue";
+import Play from "@/components/Home/PlayList.vue";
 import { computed, onMounted, onUnmounted, ref } from "vue";
 import { useStore } from "../store/user.js";
 let isCollapse = ref(true); //左侧是否详细
@@ -57,10 +59,11 @@ const f = () => {
 .player {
 	position: fixed;
 	bottom: 0;
-	z-index: 1000;
+	z-index: 999;
 	width: 100%;
 	height: 60px;
-	background: #c3c4c7;
+	background: #fff;
+    border-top: 1px solid rgba(0, 0, 0, 0.1);
 }
 img {
 	max-width: 100%;
@@ -71,12 +74,12 @@ img {
 	height: 550px;
 	left: 50%;
 	top: 50%;
-	z-index: 100;
+	z-index: 999;
 	transform: translate(-50%, -50%);
 	border-radius: 10px;
 }
 .container {
-	background-color: #1f1d2b;
+	background-color: #fff;
 	height: 98vh;
 	display: flex;
 	overflow: hidden;
@@ -93,20 +96,11 @@ img {
 	flex-grow: 1;
 }
 
-::-webkit-scrollbar {
-	width: 6px;
-	border-radius: 10px;
-}
-::-webkit-scrollbar-thumb {
-	background-color: rgb(21 20 26 / 63%);
-	border-radius: 10px;
-}
 
 .v-enter-active,
 .v-leave-active {
 	transition: opacity 0.5s ease;
 }
-
 .v-enter-from,
 .v-leave-to {
 	opacity: 0;

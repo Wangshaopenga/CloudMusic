@@ -1,7 +1,7 @@
 <template>
     <div class="sidebar" :class="{ collapse: props.isCollapse }">
-        <span class="logo">S</span>
-        <a class="logo-expand" href="#">skateboard</a>
+        <span class="logo">M</span>
+        <a class="logo-expand">CloudMusic</a>
         <div class="side-wrapper">
             <div class="side-title">菜单</div>
             <div class="side-menu">
@@ -116,50 +116,46 @@ const props = defineProps({
 .sidebar {
     width: 220px;
     height: 100%;
-    padding: 30px;
+    padding: 20px;
+    padding-left: 30px;
     display: flex;
     flex-direction: column;
     flex-shrink: 0;
     transition-duration: 0.2s;
     overflow-y: auto;
     overflow-x: hidden;
-    color: #808191;
+    color: #5a5b60;
+    border-right: 1px solid rgb(128 129 145 / 24%);
+    margin-bottom: 100px;
     .logo {
         display: none;
         width: 30px;
         height: 30px;
-        background-color: #22b07d;
+        background-color: #16bd80;
         flex-shrink: 0;
-        color: #fff;
+        color: #333;
         align-items: center;
         border-radius: 50%;
         justify-content: center;
 
         &-expand {
             text-decoration: none;
-            color: #fff;
+            color: #000;
             font-size: 19px;
             font-weight: 600;
             line-height: 34px;
             position: sticky;
             top: 0;
-            &:before {
-                content: "";
-                position: absolute;
-                top: -30px;
-                left: 0;
-                background: #1f1d2b;
-                width: 200px;
-                height: 70px;
-                z-index: -1;
-            }
         }
     }
     &-link {
         &:hover,
         &.is-active {
-            color: #fff;
+            color: #000;
             font-weight: 600;
+            svg {
+                color:#fff;
+            }
             &:nth-child(2n + 1) {
                 svg {
                     background: #ff7551;
@@ -179,7 +175,6 @@ const props = defineProps({
     }
     &.collapse {
         width: 90px;
-        border-right: 1px solid rgb(128 129 145 / 24%);
         .logo-expand,
         .side-title {
             display: none;
@@ -254,7 +249,7 @@ const props = defineProps({
 }
 
 ::-webkit-scrollbar-thumb {
-    background-color: rgb(21 20 26 / 63%);
+    background-color: red;
     border-radius: 10px;
 }
 </style>

@@ -11,7 +11,7 @@ export const useStore = defineStore('stroe', {
                 nickname: "未登录",
                 avatarUrl: "https://tse4-mm.cn.bing.net/th/id/OIP-C.N4AAf7UkO4lMNl7Kj_yo2gAAAA?w=176&h=178&c=7&r=0&o=5&dpr=1.5&pid=1.7"
             },//用户信息
-            audioxbox: [
+            playList: [
                 {
                     id: "1",
                     al: "境界的彼方1",

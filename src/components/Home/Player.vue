@@ -110,7 +110,7 @@ onMounted(() => {
 });
 
 const audiobox = computed(() => {
-	return store.audioxbox;
+	return store.playList;
 });
 let audio = ref();
 // 当前时间
@@ -170,7 +170,7 @@ const nextMusic = () => {
 			store.playNumber == lastPlayNumber ||
 			store.playNumber == beforePlayNumber.value
 		) {
-			store.playNumber = Math.floor(Math.random() * store.audioxbox.length);
+			store.playNumber = Math.floor(Math.random() * store.playList.length);
 		}
 	}
 	play();

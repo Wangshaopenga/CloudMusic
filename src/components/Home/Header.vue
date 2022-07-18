@@ -34,7 +34,7 @@
     </div>
   </div>
   <Transition>
-    <search :input="input" v-show="store.isSearch" class="search" />
+    <search v-show="store.isSearch" class="search" />
   </Transition>
 </template>
 
@@ -46,7 +46,7 @@ import Search from "./Search.vue";
 import { useStore } from "@/store/user";
 let searchDefaultKey = ref("");
 const store = useStore();
-const input = ref(null);
+const input = ref("");//搜索信息
 onMounted(() => {
   getsearchDefaultKey().then((res) => {
     searchDefaultKey.value = res.data.realkeyword;
@@ -62,8 +62,8 @@ onMounted(() => {
   display: flex;
   align-items: center;
   flex-shrink: 0;
-  padding: 30px;
-  color: #fff;
+  padding: 20px;
+  color: #000;
   .search-bar {
     height: 34px;
     display: flex;
@@ -73,7 +73,7 @@ onMounted(() => {
       width: 100%;
       height: 100%;
       border: none;
-      background-color: #353340;
+      border:1px solid #353340;
       border-radius: 8px;
       font-family: "Inter", sans-serif;
       font-size: 14px;
@@ -84,7 +84,7 @@ onMounted(() => {
       background-size: 14px;
       background-repeat: no-repeat;
       background-position: 96%;
-      color: #fff;
+      color: #000;
     }
   }
 
@@ -130,9 +130,10 @@ onMounted(() => {
     flex-shrink: 0;
     object-fit: cover;
     border-radius: 50%;
+    border: 0.5px solid rgba(0, 0, 0, 0.2);
   }
   .user-name {
-    color: #fff;
+    color: #000;
     font-size: 14px;
     margin: 0 6px 0 12px;
     @media screen and (max-width: 575px) {
@@ -144,15 +145,14 @@ onMounted(() => {
   position: absolute;
   width: 350px;
   z-index: 99;
-  background: #312e42;
-  left: 330px;
-  top: 80px;
+  left: 280px;
+  top: 62px;
   border-radius: 20px;
   transition: all 0.1s;
 }
 @media screen and (max-width: 1090px) {
   .search {
-    left: 200px;
+    left: 130px;
   }
 }
 
