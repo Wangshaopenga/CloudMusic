@@ -28,3 +28,10 @@ export function getsearchDefaultKey() {
         url: '/search/default'
     })
 }
+
+//获取用户播放记录
+export function getPlayRecord(id) {
+    return request({
+        url:`/user/record?uid=${id}&type=1`
+    })
+}

@@ -68,7 +68,7 @@
 						style="width: 70px"
 						:show-tooltip="true"
 					/>
-					<a @click="MusicList7">
+					<a @click="store.isPlayList = ! store.isPlayList">
 						<img src="@/assets/img/aplayer/列表.svg" alt="" class="Musicice" />
 					</a>
 				</div>

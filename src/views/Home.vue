@@ -9,7 +9,7 @@
 		<Transition>
 			<Login v-if="store.isLogin" class="login" />
 		</Transition>
-		<!-- <play /> -->
+		<play-list v-show="store.isPlayList" />
 	</div>
 	<Player class="player" />
 </template>
@@ -19,7 +19,7 @@ import Siderbar from "@/components/Home/Siderbar.vue";
 import Header from "@/components/Home/Header.vue";
 import Login from "@/components/Login.vue";
 import Player from "@/components/Home/Player.vue";
-import Play from "@/components/Home/PlayList.vue";
+import PlayList from "@/components/Home/PlayList.vue";
 import { computed, onMounted, onUnmounted, ref } from "vue";
 import { useStore } from "../store/user.js";
 let isCollapse = ref(true); //左侧是否详细
