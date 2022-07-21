@@ -27,6 +27,8 @@ let isLogin = ref(false); //是否展示登录界面
 const container = ref(null);
 const store = useStore();
 onMounted(() => {
+	store.isPlayList = false;
+	store.serachInfo = "";
 	setTimeout(() => {
 		getWidth();
 		window.addEventListener("resize", getWidth);
@@ -63,7 +65,7 @@ const f = () => {
 	width: 100%;
 	height: 60px;
 	background: #fff;
-    border-top: 1px solid rgba(0, 0, 0, 0.1);
+	border-top: 1px solid rgba(0, 0, 0, 0.1);
 }
 img {
 	max-width: 100%;
@@ -95,7 +97,6 @@ img {
 	flex-direction: column;
 	flex-grow: 1;
 }
-
 
 .v-enter-active,
 .v-leave-active {

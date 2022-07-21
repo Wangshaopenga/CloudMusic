@@ -9,20 +9,16 @@
 	>
 		<div class="search">
 			<div class="search-history">
-				<!-- <el-popconfirm title="你是否要清楚全部历史记录?">
-					<template #reference>
-						<div class="history-head">
-							<span class="text1"> 搜索历史 </span>
-							<delete
-								@click="delAllHistory"
-								theme="outline"
-								style="cursor: pointer"
-								size="20"
-								fill="#666"
-							/>
-						</div>
-					</template>
-				</el-popconfirm> -->
+				<div class="history-head">
+					<span class="text1"> 搜索历史 </span>
+					<delete
+						@click="delAllHistory"
+						theme="outline"
+						style="cursor: pointer"
+						size="20"
+						fill="#666"
+					/>
+				</div>
 				<div class="history-body">
 					<div
 						class="info"
@@ -50,7 +46,7 @@
 								{{ itme.searchWord }}
 								<span class="number">{{ itme.score }}</span>
 							</div>
-							<p class="description">
+							<p style="padding-right:5px" class="description">
 								{{ itme.content }}
 							</p>
 						</div>
@@ -154,7 +150,7 @@ getsearch().then((res) => {
 				height: 10%;
 				margin-top: 5px;
 				cursor: pointer;
-                display: flex;
+				display: flex;
 				.order {
 					text-align: center;
 					line-height: 58px;

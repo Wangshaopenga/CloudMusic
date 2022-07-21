@@ -1,9 +1,7 @@
 import { request } from "./request";
 
-
-export function searchMusic(data) {
+export function search(data) {
     return request({
-        url: `/search?keywords=${data}`,
-        method: 'get'
+        url: `/search?keywords=${data}&limit=50`,
     })
 }

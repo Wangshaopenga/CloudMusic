@@ -71,15 +71,13 @@ export const useStore = defineStore('stroe', {
             playmvstop: false,
             volumes: 70,//音量
             playMode: 0,//列表播放类型 0：顺序 1：循环 2：随机
-            isPlayList:false,//是否展示播放列表
+            isPlayList: false,//是否展示播放列表
+            serachInfo: "",//搜索信息
         }
     },
     getters: {
-        showmvstop(state) {
-            return state.playmvstop
-        },
         changePlay(state) {
-            return 
+            return
         }
     },
     persist: {

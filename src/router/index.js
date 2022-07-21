@@ -12,7 +12,12 @@ const routes = [
                 path: '',
                 name: 'main',
                 components: { content: () => import('../components/Home/Main.vue') }
-            }
+            },
+            {
+                path: 'serach',
+                name: 'serach',
+                components: { content: () => import('@/components/Serach/Serach.vue') }
+            },
         ]
     },
     {
