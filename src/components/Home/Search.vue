@@ -24,6 +24,7 @@
 						class="info"
 						v-for="(itme, index) in store.searchHistory"
 						:key="index"
+						@click="serach(itme)"
 					>
 						{{ itme }}
 						<close-small
@@ -46,7 +47,7 @@
 								{{ itme.searchWord }}
 								<span class="number">{{ itme.score }}</span>
 							</div>
-							<p style="padding-right:5px" class="description">
+							<p style="padding-right: 5px" class="description">
 								{{ itme.content }}
 							</p>
 						</div>
@@ -59,10 +60,12 @@
 
 <script setup>
 import { ref } from "vue";
-import { getsearch } from "@/network/home";
+import { getSearchList } from "@/network/home";
 import { Delete, CloseSmall } from "@icon-park/vue-next";
 import { useStore } from "@/store/user";
+import { useRouter } from "vue-router";
 const store = useStore();
+const router = useRouter();
 let data = ref([]);
 //删除某个搜索历史
 const delSearchHistory = (index) => {
@@ -72,9 +75,13 @@ const delSearchHistory = (index) => {
 const delAllHistory = () => {
 	store.searchHistory = [];
 };
-getsearch().then((res) => {
+getSearchList().then((res) => {
 	data.value = res.data;
 });
+const serach = (itme) => {
+	store.isSearch = false;
+	router.push({ name: "serach", query: { key: itme } });
+};
 </script>
 
 <style lang="scss" scoped>
@@ -122,6 +129,7 @@ getsearch().then((res) => {
 					border-radius: 15px;
 					margin-right: 10px;
 					margin-bottom: 10px;
+					cursor: pointer;
 					&:hover {
 						& {
 							background: #cecece;

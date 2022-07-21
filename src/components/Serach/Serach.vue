@@ -25,7 +25,12 @@
 					<div class="album">专辑</div>
 					<div class="td">时长</div>
 				</div>
-				<div class="info" v-for="(itme, index) in data" :key="index">
+				<div
+					class="info"
+					v-for="(itme, index) in data"
+					:key="index"
+					@dblclick="f(itme)"
+				>
 					<div class="index">{{ index + 1 }}</div>
 					<div class="name">
 						<like class="like" theme="outline" size="20" fill="#333" />
@@ -49,6 +54,7 @@ import { getPlayRecord } from "@/network/home";
 import { search } from "@/network/music";
 import { useStore } from "@/store/user";
 import { useRouter, useRoute } from "vue-router";
+import { getSongDetail, getUrl } from "../../network/music";
 const store = useStore();
 const router = useRouter();
 const route = useRoute();
@@ -61,15 +67,18 @@ watch(
 		if (!store.searchHistory.includes(route.query.key)) {
 			store.searchHistory.push(route.query.key);
 		}
-        console.log(!!route.query.key);
 		if (route.query.key) {
 			search(route.query.key).then((res) => {
-				console.log(res);
 				data.value = res.result.songs;
 			});
 		}
 	}
 );
+if (data.value.length == 0) {
+	search(route.query.key).then((res) => {
+		data.value = res.result.songs;
+	});
+}
 //修改歌手名称格式
 const changeName = (arr) => {
 	return arr.reduce((value, itme, index) => {
@@ -94,6 +103,21 @@ const time = (time) => {
 			? "0" + (time - parseInt(time / 60) * 60)
 			: time - parseInt(time / 60) * 60;
 	return s;
+};
+const f = (itme) => {
+	getSongDetail(itme.id).then((res) => {
+		let p = res.songs[0];
+		getUrl(p.id, store.cookie).then((res) => {
+			p.url = res.data[0].url;
+			store.playList.forEach((i, index) => {
+				if (i.id == p.id) {
+					store.playList.splice(index, 1);
+				}
+			});
+			store.playList.push(p);
+			store.playNumber = store.playList.length - 1;
+		});
+	});
 };
 </script>
 

@@ -3,7 +3,7 @@
 		<div class="header">
 			<span class="play">当前播放</span>
 			<div>
-				<span class="total">总{{ data.length }}首</span>
+				<span class="total">总{{ store.playList.length }}首</span>
 				<div>
 					<span class="collect">
 						<folder-focus-one theme="outline" size="20" fill="#333" />
@@ -14,15 +14,13 @@
 			</div>
 		</div>
 		<div class="content">
-			<div class="info" v-for="itme in data" :key="itme.song.name">
+			<div class="info" v-for="itme in store.playList" :key="itme.id">
 				<div class="name">
-					<span>{{ itme.song.name }}</span>
-					<span class="description">{{ itme.song.alia[0] }}</span>
+					<span>{{ itme.name }}</span>
+					<span class="description">{{ itme.alia[0] }}</span>
 				</div>
-				<!-- <div class="author"> -->
-				<div class="author" v-html="change(itme.song.ar)"></div>
-				<!-- </div> -->
-				<div class="td">{{ time(itme.song.dt) }}</div>
+				<div class="author" v-html="changeName(itme.ar)"></div>
+				<div class="td">{{ time(itme.dt) }}</div>
 			</div>
 		</div>
 	</div>
@@ -33,14 +31,9 @@ import { useStore } from "@/store/user";
 import { FolderFocusOne } from "@icon-park/vue-next";
 import { onMounted, ref } from "vue";
 import { getPlayRecord } from "../../network/home";
-const data = ref([]);
 const store = useStore();
-onMounted(() => {
-	getPlayRecord(store.userInfo.userId).then((res) => {
-		data.value = res.weekData;
-	});
-});
-const change = (arr) => {
+//格式化歌手名称
+const changeName = (arr) => {
 	return arr.reduce((value, itme, index) => {
 		if (index != 0) {
 			return value + `/ <span style="cursor: pointer;">${itme.name}</span> `;
@@ -49,6 +42,7 @@ const change = (arr) => {
 		}
 	}, "");
 };
+//格式化时间
 const time = (time) => {
 	let s = "";
 	time /= 1000;
@@ -128,7 +122,7 @@ const time = (time) => {
 				.description {
 					flex: 1;
 					display: block;
-					color: #e0e0e0;
+					color: #aaa;
 					overflow: hidden;
 					text-overflow: ellipsis;
 					-o-text-overflow: ellipsis;

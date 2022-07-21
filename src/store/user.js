@@ -11,62 +11,7 @@ export const useStore = defineStore('stroe', {
                 nickname: "未登录",
                 avatarUrl: "https://tse4-mm.cn.bing.net/th/id/OIP-C.N4AAf7UkO4lMNl7Kj_yo2gAAAA?w=176&h=178&c=7&r=0&o=5&dpr=1.5&pid=1.7"
             },//用户信息
-            playList: [
-                {
-                    id: "1",
-                    al: "境界的彼方1",
-                    dt: "04:33",
-                    musicname: "daisy",
-                    singer: "STEREO DIVE FOUNDATION",
-                    url: "https://sound-ks1.cdn.missevan.com/aod/202010/31/6cf02602440a5fe2b00d3960f4258397141856.m4a",
-                    cover: "https://static.missevan.com/coversmini/201410/19/29dacd308434f4d8b1015043ae89c32d141933.jpg"
-                },
-                {
-                    id: "2",
-                    al: "乱",
-                    dt: "05:13",
-                    musicname: "最好的我2",
-                    singer: "房祖名",
-                    url: "https://sound-ks1.cdn.missevan.com/aod/202112/13/76e0f45f3b756cb5fd82f4024a7e4b7e.m4a",
-                    cover: "https://static.missevan.com/coversmini/202202/25/cf7a067b1fa9fa1e637f142961d34634183055.jpg"
-                },
-                {
-                    id: "3",
-                    al: "",
-                    dt: "02:08",
-                    musicname: "Intro3",
-                    singer: "#ラブリーミュージック",
-                    url: "https://sound-ks1.cdn.missevan.com/aod/202106/14/f14b848a15d6357bf2b5dc9c14fcb633.m4a",
-                    cover: "https://static.missevan.com/coversmini/202106/14/903d0dd3ad908b9c92e20879f55844c2164802.png"
-                },
-                // {
-                //     id: "4",
-                //     al: "",
-                //     dt: "02:08",
-                //     musicname: "Intro4",
-                //     singer: "#ラブリーミュージック",
-                //     url: "https://sound-ks1.cdn.missevan.com/aod/202106/14/f14b848a15d6357bf2b5dc9c14fcb633.m4a",
-                //     cover: "https://static.missevan.com/coversmini/202106/14/903d0dd3ad908b9c92e20879f55844c2164802.png"
-                // },
-                // {
-                //     id: "5",
-                //     al: "",
-                //     dt: "02:08",
-                //     musicname: "Intro5",
-                //     singer: "#ラブリーミュージック",
-                //     url: "https://sound-ks1.cdn.missevan.com/aod/202106/14/f14b848a15d6357bf2b5dc9c14fcb633.m4a",
-                //     cover: "https://static.missevan.com/coversmini/202106/14/903d0dd3ad908b9c92e20879f55844c2164802.png"
-                // },
-                // {
-                //     id: "6",
-                //     al: "",
-                //     dt: "02:08",
-                //     musicname: "Intro6",
-                //     singer: "#ラブリーミュージック",
-                //     url: "https://sound-ks1.cdn.missevan.com/aod/202106/14/f14b848a15d6357bf2b5dc9c14fcb633.m4a",
-                //     cover: "https://static.missevan.com/coversmini/202106/14/903d0dd3ad908b9c92e20879f55844c2164802.png"
-                // },
-            ],
+            playList: [],//播放列表
             playNumber: 0,//播放的是第几首歌曲
             playmvstop: false,
             volumes: 70,//音量
@@ -76,9 +21,6 @@ export const useStore = defineStore('stroe', {
         }
     },
     getters: {
-        changePlay(state) {
-            return
-        }
     },
     persist: {
         enabled: true, // 开启数据缓存

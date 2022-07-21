@@ -16,7 +16,7 @@ export function getPersonalized(limit = 16) {
 
 
 //获取搜索列表
-export function getsearch() {
+export function getSearchList() {
     return request({
         url: '/search/hot/detail'
     })
