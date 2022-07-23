@@ -14,9 +14,9 @@ const routes = [
                 components: { content: () => import('../components/Home/Main.vue') }
             },
             {
-                path: 'serach',
-                name: 'serach',
-                components: { content: () => import('@/components/Serach/Serach.vue') }
+                path: 'search',
+                name: 'search',
+                components: { content: () => import('@/components/Search/Search.vue') }
             },
         ]
     },

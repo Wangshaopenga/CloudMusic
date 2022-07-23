@@ -2,19 +2,19 @@
 	<div class="header">
 		<div class="search-bar">
 			<div class="btn">
-				<el-button type="info" :icon="Back" circle />
-				<el-button type="info" :icon="Right" circle />
+				<el-button type="info" @click="back" :icon="Back" circle />
+				<el-button type="info" @click="forward" :icon="Right" circle />
 			</div>
 			<input
 				@focus="store.isSearch = true"
 				@blur="store.isSearch = false"
 				type="text"
-				v-model="store.serachInfo"
+				v-model="store.searchInfo"
 				:placeholder="searchDefaultKey"
-				@keydown.enter="goSerach"
+				@keydown.enter="goSearch"
 			/>
 			<img
-				@click="goSerach"
+				@click="goSearch"
 				class="search-ico"
 				src="@/assets/img/search.png"
 				alt=""
@@ -48,9 +48,8 @@
 </template>
 
 <script setup>
-import { onMounted, ref } from "vue";
-import { getsearchDefaultKey } from "@/network/home";
-import { getLoginStatus } from "@/network/login";
+import { onMounted, ref, watch } from "vue";
+import { getsearchDefaultKey,getLoginStatus } from "@/network/api";
 import Search from "./Search.vue";
 import { useStore } from "@/store/user";
 import { useRouter } from "vue-router";
@@ -62,14 +61,25 @@ onMounted(() => {
 	getsearchDefaultKey().then((res) => {
 		searchDefaultKey.value = res.data.realkeyword;
 	});
-	getLoginStatus(store.cookie).then((res) => {
-		store.userInfo = res.data.profile;
-	});
 });
-const goSerach = () => {
-	store.serachInfo
-		? router.push({ name: "serach", query: { key: store.serachInfo } })
-		: router.push({ name: "serach", query: { key: searchDefaultKey.value } });
+if (!store.cookie) {
+    store.userInfo = {
+        nickname: "未登录",
+        avatarUrl:
+            "https://tse4-mm.cn.bing.net/th/id/OIP-C.N4AAf7UkO4lMNl7Kj_yo2gAAAA?w=176&h=178&c=7&r=0&o=5&dpr=1.5&pid=1.7",
+    };
+	
+}
+const goSearch = () => {
+	store.searchInfo
+		? router.push({ name: "search", query: { key: store.searchInfo } })
+		: router.push({ name: "search", query: { key: searchDefaultKey.value } });
+};
+const back = () => {
+	router.go(-1);
+};
+const forward = () => {
+	router.go(1);
 };
 </script>
 

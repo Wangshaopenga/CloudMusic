@@ -6,7 +6,7 @@
 </template>
 
 <script setup>
-import { searchMusic } from "../network/music";
+import { searchMusic } from "@/network/api";
 const f = () => {
     searchMusic("海阔天空").then(
         (res) => {

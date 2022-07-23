@@ -24,7 +24,7 @@
 						class="info"
 						v-for="(itme, index) in store.searchHistory"
 						:key="index"
-						@click="serach(itme)"
+						@click="search(itme)"
 					>
 						{{ itme }}
 						<close-small
@@ -40,7 +40,7 @@
 			<div class="search-hot">
 				<div class="hot">热搜榜</div>
 				<ul>
-					<li v-for="(itme, index) in data" :key="index">
+					<li @click="search(itme.searchWord)" v-for="(itme, index) in data" :key="index">
 						<div class="order">{{ index + 1 }}</div>
 						<div class="song">
 							<div class="name">
@@ -60,7 +60,7 @@
 
 <script setup>
 import { ref } from "vue";
-import { getSearchList } from "@/network/home";
+import { getSearchList } from "@/network/api";
 import { Delete, CloseSmall } from "@icon-park/vue-next";
 import { useStore } from "@/store/user";
 import { useRouter } from "vue-router";
@@ -78,9 +78,9 @@ const delAllHistory = () => {
 getSearchList().then((res) => {
 	data.value = res.data;
 });
-const serach = (itme) => {
+const search = (itme) => {
 	store.isSearch = false;
-	router.push({ name: "serach", query: { key: itme } });
+	router.push({ name: "search", query: { key: itme } });
 };
 </script>
 

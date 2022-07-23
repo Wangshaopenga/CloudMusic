@@ -6,10 +6,8 @@
 		<div class="banner">
 			<ul>
 				<li @click="active = 1" :class="{ active: active == 1 }">单曲</li>
-				<li @click="active = 2" :class="{ active: active == 2 }">歌手</li>
-				<li @click="active = 3" :class="{ active: active == 3 }">专辑</li>
-				<li @click="active = 4" :class="{ active: active == 4 }">歌单</li>
-				<li @click="active = 5" :class="{ active: active == 5 }">用户</li>
+				<li @click="active = 100" :class="{ active: active == 100 }">歌手</li>
+				<li @click="active = 1000" :class="{ active: active == 1000 }">歌单</li>
 			</ul>
 		</div>
 		<div class="content">
@@ -29,7 +27,7 @@
 					class="info"
 					v-for="(itme, index) in data"
 					:key="index"
-					@dblclick="f(itme)"
+					@dblclick="addMusic(itme)"
 				>
 					<div class="index">{{ index + 1 }}</div>
 					<div class="name">
@@ -41,7 +39,14 @@
 					<div class="album">{{ itme.album.name }}</div>
 					<div class="td">{{ time(itme.duration) }}</div>
 				</div>
-				<div class="page">Page</div>
+				<div class="page">
+					<el-pagination
+						v-model="page"
+						background
+						layout="prev, pager, next"
+						:total="1000"
+					/>
+				</div>
 			</div>
 		</div>
 	</div>
@@ -50,17 +55,26 @@
 <script setup>
 import { PlayOne, Like } from "@icon-park/vue-next";
 import { ref, watch } from "vue";
-import { getPlayRecord } from "@/network/home";
-import { search } from "@/network/music";
 import { useStore } from "@/store/user";
 import { useRouter, useRoute } from "vue-router";
-import { getSongDetail, getUrl } from "../../network/music";
+import { getSongDetail, search } from "@/network/api";
 const store = useStore();
 const router = useRouter();
 const route = useRoute();
 let isLoading = ref(false); //是否加载
 let data = ref([]); //存储数据
 let active = ref(1); //搜索类型
+//页数
+let page = ref(1);
+setTimeout(() => {
+	page.value = 2;
+}, 1000);
+watch(
+	() => page.value,
+	() => {
+		console.log(" ", page.value);
+	}
+);
 watch(
 	() => route.query.key,
 	() => {
@@ -68,14 +82,14 @@ watch(
 			store.searchHistory.push(route.query.key);
 		}
 		if (route.query.key) {
-			search(route.query.key).then((res) => {
+			search(route.query.key, page.value - 1).then((res) => {
 				data.value = res.result.songs;
 			});
 		}
 	}
 );
 if (data.value.length == 0) {
-	search(route.query.key).then((res) => {
+	search(route.query.key, page.value - 1).then((res) => {
 		data.value = res.result.songs;
 	});
 }
@@ -104,20 +118,15 @@ const time = (time) => {
 			: time - parseInt(time / 60) * 60;
 	return s;
 };
-const f = (itme) => {
-	getSongDetail(itme.id).then((res) => {
-		let p = res.songs[0];
-		getUrl(p.id, store.cookie).then((res) => {
-			p.url = res.data[0].url;
-			store.playList.forEach((i, index) => {
-				if (i.id == p.id) {
-					store.playList.splice(index, 1);
-				}
-			});
-			store.playList.push(p);
-			store.playNumber = store.playList.length - 1;
-		});
-	});
+//添加到播放列表
+const addMusic = (itme) => {
+    let set = new Set(store.playList);
+    set.add(itme.id);
+    store.playList = [...set];
+    store.playNumber = store.playList.indexOf(itme.id);
+};
+const ff = () => {
+	console.log(page.value);
 };
 </script>
 
@@ -276,7 +285,9 @@ const f = (itme) => {
 			.page {
 				width: 100%;
 				height: 40px;
-				background: #fab;
+				position: relative;
+				left: 20%;
+				top: 10px;
 			}
 		}
 	}

@@ -15,12 +15,13 @@
 		</div>
 		<div class="content">
 			<div class="info" v-for="itme in store.playList" :key="itme.id">
-				<div class="name">
+				<!-- <div class="name">
 					<span>{{ itme.name }}</span>
 					<span class="description">{{ itme.alia[0] }}</span>
 				</div>
 				<div class="author" v-html="changeName(itme.ar)"></div>
-				<div class="td">{{ time(itme.dt) }}</div>
+				<div class="td">{{ time(itme.dt) }}</div> -->
+                {{itme}}
 			</div>
 		</div>
 	</div>
@@ -30,7 +31,7 @@
 import { useStore } from "@/store/user";
 import { FolderFocusOne } from "@icon-park/vue-next";
 import { onMounted, ref } from "vue";
-import { getPlayRecord } from "../../network/home";
+import { getPlayRecord } from "@/network/api";
 const store = useStore();
 //格式化歌手名称
 const changeName = (arr) => {

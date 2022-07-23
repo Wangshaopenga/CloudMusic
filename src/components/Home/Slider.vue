@@ -14,7 +14,7 @@
 </template>
 <script setup>
 import { onMounted, ref } from "vue";
-import { getSlider } from "@/network/home";
+import { getSlider } from "@/network/api";
 let data = ref([]);
 onMounted(() => {
 	getSlider().then((res) => {

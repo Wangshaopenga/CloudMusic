@@ -22,14 +22,14 @@ import Player from "@/components/Home/Player.vue";
 import PlayList from "@/components/Home/PlayList.vue";
 import { computed, onMounted, onUnmounted, ref } from "vue";
 import { useStore } from "../store/user.js";
-import { getPlayRecord } from "../network/home.js";
+import { getPlayRecord } from "@/network/api.js";
 let isCollapse = ref(true); //左侧是否详细
 let isLogin = ref(false); //是否展示登录界面
 const container = ref(null);
 const store = useStore();
 onMounted(() => {
 	store.isPlayList = false;
-	store.serachInfo = "";
+	store.searchInfo = "";
 	setTimeout(() => {
 		getWidth();
 		window.addEventListener("resize", getWidth);

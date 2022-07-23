@@ -10,18 +10,14 @@
 		></audio>
 		<div class="info">
 			<div class="img">
-				<img
-					v-show="show.cover != ''"
-					:src="show.cover + '?param=60y60'"
-					alt=""
-				/>
+				<img v-if="song.name != '未知歌曲'" :src="song.al.picUrl" />
 			</div>
 			<div class="musicInfo">
 				<div class="name">
-					{{ show.name }}
+					{{ song.name }}
 				</div>
-				<div class="singer">
-					<span v-for="(p, index) in show.singer" :key="p">
+				<div v-if="song.name != '未知歌曲'" class="singer">
+					<span v-for="(p, index) in song.ar" :key="p">
 						{{ index != 0 ? `/ ${p.name}` : `${p.name}` }}
 					</span>
 				</div>
@@ -70,7 +66,7 @@
 						style="width: 70px"
 						:show-tooltip="true"
 					/>
-					<a @click="store.isPlayList = !store.isPlayList">
+					<a @click="isPlayList = !isPlayList">
 						<img src="@/assets/img/aplayer/列表.svg" alt="" class="Musicice" />
 					</a>
 				</div>
@@ -94,19 +90,22 @@
 	</div>
 </template>
 <script setup>
-import { ref, reactive, computed, onMounted, watch } from "vue";
+import { ref, reactive, computed, onMounted, watch, toRefs } from "vue";
 import { useStore } from "@/store/user";
 import { useRouter } from "vue-router";
 import { Like } from "@icon-park/vue-next";
+import { getUrl, getSongDetail } from "@/network/api";
 const router = useRouter();
 const store = useStore();
 onMounted(() => {
 	audio.value.volume = store.volumes / 100;
 	if (store.playList.length != 0) {
-		audio.value.src = store.playList[0].url;
-		show.name = store.playList[0].name;
-		show.singer = store.playList[0].ar;
-		show.cover = store.playList[0].al.picUrl;
+		getSongDetail(store.playList[store.playNumber]).then((res) => {
+			info.song = res.songs[0];
+		});
+		getUrl(store.playList[store.playNumber]).then((res) => {
+			audio.value.src = res.data[0].url;
+		});
 	}
 });
 let audio = ref();
@@ -116,16 +115,29 @@ let MusiccurrentTime = ref();
 let Musicduration = ref();
 // 进度条
 let progress = ref();
+//歌曲信息
+// let info = reactive({
+// 	name: "未知歌曲",
+// });
+let isPlayList = ref(false);
+let info = reactive({
+	song: {
+		name: "未知歌曲",
+	},
+});
+let { song } = toRefs(info);
 watch(
 	() => store.playNumber,
 	() => {
 		pause();
-		if (store.playNumber.length != 0) {
-			audio.value.src = store.playList[store.playNumber].url;
-			show.name = store.playList[store.playNumber].name;
-			show.singer = store.playList[store.playNumber].ar;
-			show.cover = store.playList[store.playNumber].al.picUrl;
-			play();
+		if (store.playList.length != 0) {
+			getSongDetail(store.playList[store.playNumber]).then((res) => {
+				info.song = res.songs[0];
+			});
+			getUrl(store.playList[store.playNumber]).then((res) => {
+				audio.value.src = res.data[0].url;
+				play();
+			});
 		}
 	}
 );
@@ -134,12 +146,6 @@ const playModeList = ["循环", "单曲循环", "随机"]; // 0：顺序 1：循
 const changePlayMode = () => {
 	store.playMode = (store.playMode + 1) % 3;
 };
-// 显示内容
-let show = reactive({
-	name: "未知歌曲",
-	cover: "",
-	singer: "未知歌手",
-});
 
 const beforePlayNumber = ref(store.playNumber);
 // 上一首   随机播放上一曲功能尚未实现
@@ -256,12 +262,13 @@ const startPlayOrpause = () => {
 // 播放
 const play = () => {
 	if (audio.value.src == "") return;
-	console.log(audio.value.src);
 	audio.value.play();
+	playStatus.value = audio.value.paused ? "暂停" : "播放";
 };
 // 暂停
 const pause = () => {
 	audio.value.pause();
+	playStatus.value = audio.value.paused ? "暂停" : "播放";
 };
 
 const MusicList7 = () => {

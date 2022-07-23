@@ -15,7 +15,7 @@
 <script setup>
 import Video from "./Video.vue";
 import Slider from "./Slider.vue";
-import { getPersonalized } from "../../network/home";
+import { getPersonalized } from "@/network/api";
 import { ref } from "vue";
 let data = ref([]);
 getPersonalized().then((res) => {
