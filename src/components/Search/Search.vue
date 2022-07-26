@@ -10,12 +10,12 @@
 				<li @click="active = 1000" :class="{ active: active == 1000 }">歌单</li>
 			</ul>
 		</div>
-		<div class="content">
-			<div class="header">
-				<button class="play">播放全部 &nbsp;&nbsp;十</button>
-				<button class="download">下载全部</button>
-			</div>
-			<div class="body" v-loading="isLoading">
+		<div
+			class="content"
+			v-loading="isLoading"
+			element-loading-text="数据加载中,请稍后..."
+		>
+			<div class="body">
 				<div class="info top">
 					<div class="index"></div>
 					<div class="name" style="color: #323232">音乐标题</div>
@@ -39,13 +39,16 @@
 					<div class="album">{{ itme.album.name }}</div>
 					<div class="td">{{ time(itme.duration) }}</div>
 				</div>
-				<div class="page">
+				<div v-if="data.length != 0" class="page">
 					<el-pagination
-						v-model="page"
 						background
 						layout="prev, pager, next"
-						:total="1000"
-					/>
+						:total="total"
+						:page-size="50"
+						v-model:current-page="page"
+						@current-change="changePage"
+					>
+					</el-pagination>
 				</div>
 			</div>
 		</div>
@@ -54,7 +57,7 @@
 
 <script setup>
 import { PlayOne, Like } from "@icon-park/vue-next";
-import { ref, watch } from "vue";
+import { computed, ref, watch } from "vue";
 import { useStore } from "@/store/user";
 import { useRouter, useRoute } from "vue-router";
 import { getSongDetail, search } from "@/network/api";
@@ -64,34 +67,28 @@ const route = useRoute();
 let isLoading = ref(false); //是否加载
 let data = ref([]); //存储数据
 let active = ref(1); //搜索类型
-//页数
-let page = ref(1);
-setTimeout(() => {
-	page.value = 2;
-}, 1000);
-watch(
-	() => page.value,
-	() => {
-		console.log(" ", page.value);
-	}
-);
+let page = ref(1); //页数
+let total = ref(0); //数据总数  用于计算有多少页
+const init = () => {
+	search(route.query.key, page.value - 1).then((res) => {
+		total.value = res.result.songCount;
+		data.value = res.result.songs;
+		isLoading.value = false;
+	});
+};
 watch(
 	() => route.query.key,
 	() => {
 		if (!store.searchHistory.includes(route.query.key)) {
-			store.searchHistory.push(route.query.key);
+			store.searchHistory.unshift(route.query.key);
 		}
 		if (route.query.key) {
-			search(route.query.key, page.value - 1).then((res) => {
-				data.value = res.result.songs;
-			});
+			init();
 		}
 	}
 );
 if (data.value.length == 0) {
-	search(route.query.key, page.value - 1).then((res) => {
-		data.value = res.result.songs;
-	});
+	init();
 }
 //修改歌手名称格式
 const changeName = (arr) => {
@@ -120,21 +117,37 @@ const time = (time) => {
 };
 //添加到播放列表
 const addMusic = (itme) => {
-    let set = new Set(store.playList);
-    set.add(itme.id);
-    store.playList = [...set];
-    store.playNumber = store.playList.indexOf(itme.id);
+	let flag = store.playList.some((val, index) => {
+		if (itme.id == val.id) {
+			store.playNumber = index;
+			return true;
+		} else {
+			return false;
+		}
+	});
+	if (!flag) {
+		getSongDetail(itme.id).then((res) => {
+			store.playList.push(res.songs[0]);
+			store.playNumber = store.playList.length - 1;
+		});
+	}
 };
-const ff = () => {
-	console.log(page.value);
+const changePage = () => {
+	isLoading.value = true;
+	init();
 };
 </script>
 
 <style scoped lang="scss">
+* {
+	box-sizing: border-box;
+}
 .box {
 	padding: 0 20px;
 	width: 100%;
 	height: 100%;
+	overflow: hidden;
+	// overflow: hidden;
 	.banner {
 		ul {
 			list-style: none;
@@ -171,34 +184,8 @@ const ff = () => {
 		}
 	}
 	.content {
-		margin-top: 40px;
-		.header {
-			button {
-				font-size: 14px;
-				display: inline-block;
-				line-height: 40px;
-				outline: none;
-				background: #fff;
-				border: 1px solid rgba($color: #000000, $alpha: 0.2);
-				height: 40px;
-				width: 120px;
-				border-radius: 30px;
-				&:hover {
-					background: #e0e0e0;
-				}
-			}
-			.play {
-				margin-right: 20px;
-				background: #32a7e2;
-				color: #fff;
-				border: none;
-				&:hover {
-					background: #3595c5;
-				}
-			}
-		}
 		.body {
-			height: 460px;
+			height: 540px;
 			width: 98%;
 			overflow-y: scroll;
 			overflow-x: hidden;
@@ -285,9 +272,8 @@ const ff = () => {
 			.page {
 				width: 100%;
 				height: 40px;
-				position: relative;
-				left: 20%;
-				top: 10px;
+				display: flex;
+				justify-content: center;
 			}
 		}
 	}

@@ -7,9 +7,12 @@ import 'element-plus/dist/index.css'
 import '@icon-park/vue-next/styles/index.css';
 import { install } from '@icon-park/vue-next/es/all';
 import piniaPluginPersistedstate from 'pinia-plugin-persistedstate'
+import base from "@/assets/css/base.css"
+import iconfont from '@/assets/icon/iconfont.css'
 const pinia = createPinia()
 pinia.use(piniaPluginPersistedstate)
 const app = createApp(App)
+
 install(app);
 install(app, 'i');
 app.use(ElementPlus).use(pinia).use(router).mount('#app')

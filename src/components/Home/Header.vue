@@ -49,7 +49,7 @@
 
 <script setup>
 import { onMounted, ref, watch } from "vue";
-import { getsearchDefaultKey,getLoginStatus } from "@/network/api";
+import { getsearchDefaultKey, getLoginStatus } from "@/network/api";
 import Search from "./Search.vue";
 import { useStore } from "@/store/user";
 import { useRouter } from "vue-router";
@@ -63,12 +63,11 @@ onMounted(() => {
 	});
 });
 if (!store.cookie) {
-    store.userInfo = {
-        nickname: "未登录",
-        avatarUrl:
-            "https://tse4-mm.cn.bing.net/th/id/OIP-C.N4AAf7UkO4lMNl7Kj_yo2gAAAA?w=176&h=178&c=7&r=0&o=5&dpr=1.5&pid=1.7",
-    };
-	
+	store.userInfo = {
+		nickname: "未登录",
+		avatarUrl:
+			"https://tse4-mm.cn.bing.net/th/id/OIP-C.N4AAf7UkO4lMNl7Kj_yo2gAAAA?w=176&h=178&c=7&r=0&o=5&dpr=1.5&pid=1.7",
+	};
 }
 const goSearch = () => {
 	store.searchInfo
@@ -95,6 +94,7 @@ const forward = () => {
 		display: flex;
 		width: 100%;
 		max-width: 450px;
+		position: relative;
 		.btn {
 			width: 115px;
 			button {
@@ -118,13 +118,13 @@ const forward = () => {
 			box-shadow: 0 0 0 2px rgba(134, 140, 160, 0.02);
 			color: #000;
 			position: relative;
-			left: 10px;
+			left: 200px;
 		}
 		.search-ico {
 			width: 18px;
 			height: 18px;
 			position: relative;
-			right: 7%;
+			right: -37%;
 			top: 9px;
 			cursor: pointer;
 		}
@@ -194,7 +194,7 @@ const forward = () => {
 }
 @media screen and (max-width: 1090px) {
 	.search {
-		left: 205px;
+		left: 335px;
 	}
 }
 

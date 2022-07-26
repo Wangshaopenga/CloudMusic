@@ -1,7 +1,7 @@
 <template>
 	<div
-		class="container1"
-		ref="container1"
+		class="loginBox"
+		ref="loginBox"
 		v-loading="isLoading"
 		element-loading-text="数据加载中，请稍后……"
 	>
@@ -162,15 +162,15 @@ let isScan = ref(false);
 let isFailure = ref(false);
 let info = ref("");
 const store = useStore();
-const container1 = ref(null);
+const loginBox = ref(null);
 let time = "";
 const closed = () => {
 	store.isLogin = false;
 	time ? clearInterval(time) : "";
 };
-logout(store.cookie).then((res) => {
-	store.cookie = "";
-});
+// logout(store.cookie).then((res) => {
+// 	store.cookie = "";
+// });
 const login = () => {
 	getQrLoginKey().then((res) => {
 		key.value = res.data.unikey;
@@ -214,7 +214,7 @@ onMounted(() => {
 </script>
 
 <style lang="scss" scoped>
-.container1 {
+.loginBox {
 	width: 350px;
 	height: 550px;
 	text-align: center;

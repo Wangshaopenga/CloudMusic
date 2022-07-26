@@ -1,0 +1,404 @@
+.el-drawer.rtl {
+    height: calc(100vh - 60px);
+
+    .el-drawer__body {
+        z-index: 9998 !important;
+        padding: 0;
+
+        &::-webkit-scrollbar {
+            width: 5px;
+        }
+    }
+
+    .amount {
+        font-size: 13px;
+        color: #aaa;
+        padding: 20px;
+        margin-bottom: 10px;
+    }
+
+    .el-table {
+        border-radius: 10px;
+        margin-bottom: 20px;
+
+        &::before {
+            height: 2px;
+            background-color: #ddd;
+        }
+
+        tr {
+            cursor: pointer;
+
+            td {
+                font-size: 12px;
+                border-bottom: none;
+                color: #2e2e2e;
+                white-space: nowrap;
+                overflow: hidden;
+                text-overflow: ellipsis;
+
+                i {
+                    color: rgb(31, 31, 31);
+                    font-weight: bold;
+                    font-size: 13px;
+                }
+
+                &:nth-child(3) {
+                    color: #868686;
+                }
+            }
+
+            &:nth-child(2n + 1) {
+                background-color: #f8f8f8;
+            }
+
+            &:hover {
+                background-color: rgba(223, 249, 251, 0.5);
+
+                & td {
+                    background-color: rgba(223, 249, 251, 0.5);
+                    color: #333;
+                }
+            }
+        }
+
+        .el-table__empty-text {
+            font-size: 18px;
+        }
+
+        tr.active {
+            background-color: rgba(223, 249, 251, 0.5) !important;
+
+            td {
+                color: #000 !important;
+
+                &:nth-child(3) {
+                    color: #868686 !important;
+                }
+            }
+        }
+    }
+}
+
+.el-drawer.btt {
+    z-index: 9997 !important;
+    height: calc(100vh - 60px) !important;
+    background-color: white;
+    background-image: linear-gradient(to bottom, #e3e2e3, white);
+    position: absolute;
+    top: 0;
+
+    .el-drawer__body {
+        padding: 0;
+
+        &::-webkit-scrollbar {
+            width: 5px;
+        }
+    }
+
+    .packUp {
+        position: absolute;
+        top: 20px;
+        left: 30px;
+        cursor: pointer;
+        border: none;
+        background-color: transparent;
+
+        i {
+            font-size: 25px;
+            color: black;
+            font-weight: bold;
+        }
+    }
+
+    .not {
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        font-size: 28px;
+        color: #666;
+    }
+
+    .setFrostedGlass {
+        position: absolute;
+        bottom: 40px;
+        right: 60px;
+        cursor: pointer;
+        border: none;
+        background-color: transparent;
+
+        i {
+            font-size: 25px;
+            color: #2e2e2e;
+        }
+    }
+
+    .songDetails {
+        display: flex;
+        justify-content: center;
+        flex-direction: column;
+
+        .songInfo {
+            height: 485px;
+            display: flex;
+            justify-content: center;
+
+            .disc {
+                width: 275px;
+                height: 100%;
+                margin-right: 45px;
+                padding-top: 50px;
+                box-sizing: border-box;
+                position: relative;
+
+                .needle {
+                    width: 110px;
+                    height: 90px;
+                    position: relative;
+                    left: 50%;
+                    top: 2%;
+                    transition: all 1s;
+                    z-index: 9999;
+                    transform-origin: 8px 8px;
+
+                    img {
+                        width: 110px;
+                        height: 90px;
+                    }
+                }
+
+                .disk {
+                    width: 275px;
+                    height: 275px;
+                    position: relative;
+                    animation-duration: 25s;
+                    animation-timing-function: linear;
+                    animation-delay: 0.8s;
+                    animation-iteration-count: infinite;
+                    animation-direction: normal;
+                    animation-fill-mode: none;
+                    animation-play-state: running;
+                    animation-name: spin;
+
+                    .outer {
+                        img {
+                            width: 275px;
+                            height: 275px;
+                        }
+                    }
+
+                    .inner {
+                        border-radius: 50%;
+                        position: absolute;
+                        top: (75px/2);
+                        left: (75px/2);
+
+                        img {
+                            width: 200px;
+                            height: 200px;
+                            border-radius: 50%;
+                        }
+                    }
+                }
+
+                .stop {
+                    animation-play-state: paused;
+                }
+
+                .start {
+                    animation-play-state: running;
+                }
+
+                .crush {
+                    transform-origin: 8px 8px;
+                    transform: rotate(22deg);
+                }
+            }
+
+            .songDetails {
+                width: 438px;
+                height: 100%;
+                text-align: center;
+                cursor: default;
+
+                .title {
+                    margin: 50px 0 20px;
+                    color: #919191;
+
+                    .name {
+                        font-size: 30px;
+                        margin: 10px 0;
+                        color: #000;
+                    }
+
+                    .collection {
+                        margin: 5px 0;
+                        display: inline-block;
+                        cursor: pointer;
+
+                        &:hover {
+                            color: #000;
+                        }
+                    }
+
+                    .singers {
+                        width: 200px;
+                        margin: 5px auto;
+                        overflow: hidden;
+                        white-space: nowrap;
+                        text-overflow: ellipsis;
+
+                        .singerName {
+                            cursor: pointer;
+
+                            &:hover {
+                                color: #000;
+                            }
+                        }
+                    }
+                }
+
+                .lyrics {
+                    width: 438px;
+                    height: 318px;
+                    overflow: auto;
+
+                    &::-webkit-scrollbar {
+                        display: none;
+                    }
+
+                    .placeholder {
+                        height: 120px;
+                    }
+
+                    .word {
+                        margin: 30px 20px;
+                        color: #666;
+
+                        &.currentLyric {
+                            color: black;
+                            font-weight: bold;
+                        }
+                    }
+                }
+            }
+        }
+
+        .songComments {
+            width: 1035px;
+            margin: 50px auto 0;
+
+            .hotComments,
+            .newComments {
+                width: 100%;
+                margin-bottom: 50px;
+
+                .title {
+                    font-size: 18px;
+                    font-weight: bold;
+                }
+
+                .details {
+                    display: flex;
+                    margin-top: 30px;
+                    padding-bottom: 30px;
+                    border-bottom: 1px solid rgb(161, 161, 161);
+
+                    .headerPhoto {
+                        margin-right: 20px;
+                        cursor: pointer;
+
+                        img {
+                            width: 45px;
+                            height: 45px;
+                            border-radius: 50%;
+                        }
+                    }
+
+                    .content {
+                        width: calc(100% - 65px);
+                        display: flex;
+                        flex-direction: column;
+                        font-size: 15px;
+                        color: #555;
+
+                        .user {
+                            width: 100%;
+                            margin-bottom: 10px;
+
+                            .username {
+                                font-weight: bold;
+                                color: #5a8ab9;
+                                cursor: pointer;
+                            }
+                        }
+
+                        .at {
+                            width: 100%;
+                            padding: 10px 20px;
+                            margin: 10px 0;
+                            background-color: #deeeee;
+                            box-sizing: border-box;
+                            border-radius: 10px;
+
+                            .atName {
+                                font-weight: bold;
+                                cursor: pointer;
+                            }
+                        }
+
+                        .else {
+                            width: 100%;
+                            display: flex;
+                            flex-direction: row;
+                            position: relative;
+
+                            .operate {
+                                display: flex;
+                                flex-direction: row;
+                                position: absolute;
+                                right: 0;
+
+                                .like,
+                                .share,
+                                .reply {
+                                    margin: 0 8px;
+
+                                    i {
+                                        cursor: pointer;
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        }
+
+        .pagination {
+            display: flex;
+            justify-content: center;
+            margin: 10px 0 30px;
+        }
+    }
+
+    .el-backtop {
+        right: 20px !important;
+        bottom: 95px !important;
+    }
+}
+
+.el-drawer.frostedGlass {
+    backdrop-filter: blur(15px) brightness(95%) !important;
+    background-color: unset !important;
+    background-image: unset !important;
+}
+
+@keyframes spin {
+    from {}
+
+    to {
+        transform: rotate(360deg);
+    }
+}

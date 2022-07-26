@@ -1,5 +1,5 @@
 import { defineStore } from "pinia";
-
+import { getSongDetail } from '@/network/api.js'
 export const useStore = defineStore('stroe', {
     state: () => {
         return {
@@ -20,6 +20,8 @@ export const useStore = defineStore('stroe', {
         }
     },
     getters: {
+    },
+    actions: {
     },
     persist: {
         enabled: true, // 开启数据缓存

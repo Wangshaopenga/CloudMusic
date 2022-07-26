@@ -32,7 +32,7 @@
 							theme="outline"
 							size="15"
 							fill="#666"
-							@click="delSearchHistory(index)"
+							@click.stop="delSearchHistory(index)"
 						/>
 					</div>
 				</div>
@@ -40,7 +40,11 @@
 			<div class="search-hot">
 				<div class="hot">热搜榜</div>
 				<ul>
-					<li @click="search(itme.searchWord)" v-for="(itme, index) in data" :key="index">
+					<li
+						@click="search(itme.searchWord)"
+						v-for="(itme, index) in data"
+						:key="index"
+					>
 						<div class="order">{{ index + 1 }}</div>
 						<div class="song">
 							<div class="name">
@@ -78,7 +82,7 @@ const delAllHistory = () => {
 getSearchList().then((res) => {
 	data.value = res.data;
 });
-const search = (itme) => {
+const search = (itme, flag = false) => {
 	store.isSearch = false;
 	router.push({ name: "search", query: { key: itme } });
 };
@@ -133,6 +137,7 @@ const search = (itme) => {
 					&:hover {
 						& {
 							background: #cecece;
+							color: #000;
 						}
 					}
 				}

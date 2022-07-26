@@ -32,7 +32,7 @@ export function getsearchDefaultKey() {
 //获取用户播放记录
 export function getPlayRecord(id) {
     return request({
-        url:`/user/record?uid=${id}&type=1`
+        url: `/user/record?uid=${id}&type=1`
     })
 }
 
@@ -100,3 +100,28 @@ export function getUrl(id, cookie) {
         url: `/song/url?id=${id}&cookie=${cookie}`
     })
 }
+
+//获取歌单评论
+export const commentPlaylist = (id, offset) => {
+    return request({
+        url: `/comment/playlist?id=${id}&offset=${offset}`,
+        method: 'GET',
+    })
+}
+
+//获取音频的歌词
+export const lyric = (id) => {
+    return request({
+        url: `/lyric?id=${id}`,
+        method: 'GET',
+    })
+}
+
+//获取歌曲的评论
+export const comment = (id, offset) => {
+    return request({
+      url: `/comment/music?id=${id}&offset=${offset}`,
+      method: 'GET',
+    })
+  }
+  

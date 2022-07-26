@@ -2,14 +2,13 @@
 	<div class="main-container">
 		<div class="main-header anim" style="--delay: 0s">发现音乐</div>
 		<div class="main-blogs slider">
-			<slider></slider>
+			<Slider />
 		</div>
 		<div class="small-header anim" style="--delay: 0.3s">推荐歌单 ></div>
 		<div class="videos">
 			<Video v-for="p in data" :key="p.id" :playList="p"></Video>
 		</div>
 	</div>
-	<div class="interval"></div>
 </template>
 
 <script setup>
@@ -24,25 +23,13 @@ getPersonalized().then((res) => {
 </script>
 
 <style lang="scss" scoped>
-.interval {
-	height: 80px;
-}
-@media screen and (max-width: 850px) {
-	.interval {
-		height: 120px;
-	}
-}
-@media screen and (max-width: 735px) {
-	.interval {
-		height: 230px;
-	}
-}
 .main-container {
 	display: flex;
 	flex-direction: column;
 	padding: 0 30px 30px;
 	flex-grow: 1;
 	overflow: auto;
+	margin-top: 30px;
 }
 
 .anim {
@@ -53,24 +40,19 @@ getPersonalized().then((res) => {
 	font-size: 30px;
 	color: #000;
 	font-weight: 700;
-	padding-bottom: 20px;
-	position: sticky;
-	top: 0;
-	left: 0;
 	background: linear-gradient(
 		to bottom,
 		#fff,
 		#e0e0e0,
-		rgba($color: #e0e0e0, $alpha: .1)
+		rgba($color: #e0e0e0, $alpha: 0.1)
 	);
-    backdrop-filter: 20px;
-	z-index: 11;
+	backdrop-filter: 20px;
 }
 
 .small-header {
 	font-size: 24px;
 	font-weight: 500;
-	color: #fff;
+	color: #333;
 	margin: 30px 0 20px;
 }
 
@@ -216,7 +198,7 @@ getPersonalized().then((res) => {
 	grid-template-columns: repeat(4, 1fr);
 	grid-column-gap: 20px;
 	grid-row-gap: 20px;
-	@media screen and (max-width: 980px) {
+	@media screen and (max-width: 1010px) {
 		grid-template-columns: repeat(2, 1fr);
 	}
 }
@@ -324,7 +306,7 @@ video {
 		flex-wrap: wrap;
 	}
 }
-@media screen and (max-width: 735px) {
+@media screen and (max-width: 750px) {
 	.main-blogs {
 		flex-wrap: wrap;
 	}
@@ -337,13 +319,5 @@ video {
 	.main-container {
 		padding: 0 20px 20px;
 	}
-}
-::-webkit-scrollbar {
-	width: 6px;
-	border-radius: 10px;
-}
-::-webkit-scrollbar-thumb {
-	background-color: #e0e0e0;
-	border-radius: 10px;
 }
 </style>

@@ -83,7 +83,7 @@ img {
 }
 .container {
 	background-color: #fff;
-	height: 98vh;
+	height: 100vh;
 	display: flex;
 	overflow: hidden;
 	width: 100%;

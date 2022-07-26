@@ -1,45 +1,421 @@
-@import './normalize.css';
-
-:root {
-    --color-text: #666;
-    --color-high-text: #42bBaa;
-    --color-tint: #42b983;
-    --color-background: #ffffff;
-    --font-size: 14px;
-    --line-height: 1.5;
+.el-drawer.rtl {
+  height: calc(100vh - 60px);
 }
 
-*,
-*::before,
-*::after {
-    margin: 0;
-    padding: 0;
-    box-sizing: border-box;
+.el-drawer.rtl .el-drawer__body {
+  z-index: 9998 !important;
+  padding: 0;
 }
 
-body {
-    user-select: none;
-    background-color: var(--color-background);
-    color: var(--color--text);
-    /* width: 100vw; */
+.el-drawer.rtl .el-drawer__body::-webkit-scrollbar {
+  width: 5px;
 }
 
-a {
-    color: var(--color--text);
-    text-decoration: none;
+.el-drawer.rtl .amount {
+  font-size: 13px;
+  color: #aaa;
+  padding: 20px;
+  margin-bottom: 10px;
 }
 
-.left {
-    float: left;
+.el-drawer.rtl .el-table {
+  border-radius: 10px;
+  margin-bottom: 20px;
 }
 
-.right {
-    float: right;
+.el-drawer.rtl .el-table::before {
+  height: 2px;
+  background-color: #ddd;
 }
 
-img {
-    max-width: 100%;
-    max-height: 100%;
-    height: auto;
-    width: auto;
+.el-drawer.rtl .el-table tr {
+  cursor: pointer;
+}
+
+.el-drawer.rtl .el-table tr td {
+  font-size: 12px;
+  border-bottom: none;
+  color: #2e2e2e;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.el-drawer.rtl .el-table tr td i {
+  color: #1f1f1f;
+  font-weight: bold;
+  font-size: 13px;
+}
+
+.el-drawer.rtl .el-table tr td:nth-child(3) {
+  color: #868686;
+}
+
+.el-drawer.rtl .el-table tr:nth-child(2n + 1) {
+  background-color: #f8f8f8;
+}
+
+.el-drawer.rtl .el-table tr:hover {
+  background-color: rgba(223, 249, 251, 0.5);
+}
+
+.el-drawer.rtl .el-table tr:hover td {
+  background-color: rgba(223, 249, 251, 0.5);
+  color: #333;
+}
+
+.el-drawer.rtl .el-table .el-table__empty-text {
+  font-size: 18px;
+}
+
+.el-drawer.rtl .el-table tr.active {
+  background-color: rgba(223, 249, 251, 0.5) !important;
+}
+
+.el-drawer.rtl .el-table tr.active td {
+  color: #000 !important;
+}
+
+.el-drawer.rtl .el-table tr.active td:nth-child(3) {
+  color: #868686 !important;
+}
+
+.el-drawer.btt {
+  z-index: 9997 !important;
+  height: calc(100vh - 60px) !important;
+  background-color: white;
+  background-image: linear-gradient(to bottom, #e3e2e3, white);
+  position: absolute;
+  top: 0;
+}
+
+.el-drawer.btt .el-drawer__body {
+  padding: 0;
+}
+
+.el-drawer.btt .el-drawer__body::-webkit-scrollbar {
+  width: 5px;
+}
+
+.el-drawer.btt .packUp {
+  position: absolute;
+  top: 20px;
+  left: 30px;
+  cursor: pointer;
+  border: none;
+  background-color: transparent;
+}
+
+.el-drawer.btt .packUp i {
+  font-size: 25px;
+  color: black;
+  font-weight: bold;
+}
+
+.el-drawer.btt .not {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  font-size: 28px;
+  color: #666;
+}
+
+.el-drawer.btt .setFrostedGlass {
+  position: absolute;
+  bottom: 40px;
+  right: 60px;
+  cursor: pointer;
+  border: none;
+  background-color: transparent;
+}
+
+.el-drawer.btt .setFrostedGlass i {
+  font-size: 25px;
+  color: #2e2e2e;
+}
+
+.el-drawer.btt .songDetails {
+  display: flex;
+  justify-content: center;
+  flex-direction: column;
+}
+
+.el-drawer.btt .songDetails .songInfo {
+  height: 485px;
+  display: flex;
+  justify-content: center;
+}
+
+.el-drawer.btt .songDetails .songInfo .disc {
+  width: 275px;
+  height: 100%;
+  margin-right: 45px;
+  padding-top: 50px;
+  box-sizing: border-box;
+  position: relative;
+}
+
+.el-drawer.btt .songDetails .songInfo .disc .needle {
+  width: 110px;
+  height: 90px;
+  position: relative;
+  left: 50%;
+  top: 2%;
+  transition: all 1s;
+  z-index: 9999;
+  transform-origin: 8px 8px;
+}
+
+.el-drawer.btt .songDetails .songInfo .disc .needle img {
+  width: 110px;
+  height: 90px;
+}
+
+.el-drawer.btt .songDetails .songInfo .disc .disk {
+  width: 275px;
+  height: 275px;
+  position: relative;
+  animation-duration: 25s;
+  animation-timing-function: linear;
+  animation-delay: 0.8s;
+  animation-iteration-count: infinite;
+  animation-direction: normal;
+  animation-fill-mode: none;
+  animation-play-state: running;
+  animation-name: spin;
+}
+
+.el-drawer.btt .songDetails .songInfo .disc .disk .outer img {
+  width: 275px;
+  height: 275px;
+}
+
+.el-drawer.btt .songDetails .songInfo .disc .disk .inner {
+  border-radius: 50%;
+  position: absolute;
+  top: 37.5px;
+  left: 37.5px;
+}
+
+.el-drawer.btt .songDetails .songInfo .disc .disk .inner img {
+  width: 200px;
+  height: 200px;
+  border-radius: 50%;
+}
+
+.el-drawer.btt .songDetails .songInfo .disc .stop {
+  animation-play-state: paused;
+}
+
+.el-drawer.btt .songDetails .songInfo .disc .start {
+  animation-play-state: running;
+}
+
+.el-drawer.btt .songDetails .songInfo .disc .crush {
+  transform-origin: 8px 8px;
+  transform: rotate(22deg);
+}
+
+.el-drawer.btt .songDetails .songInfo .songDetails {
+  width: 438px;
+  height: 100%;
+  text-align: center;
+  cursor: default;
+}
+
+.el-drawer.btt .songDetails .songInfo .songDetails .title {
+  margin: 50px 0 20px;
+  color: #919191;
+}
+
+.el-drawer.btt .songDetails .songInfo .songDetails .title .name {
+  font-size: 30px;
+  margin: 10px 0;
+  color: #000;
+}
+
+.el-drawer.btt .songDetails .songInfo .songDetails .title .collection {
+  margin: 5px 0;
+  display: inline-block;
+  cursor: pointer;
+}
+
+.el-drawer.btt .songDetails .songInfo .songDetails .title .collection:hover {
+  color: #000;
+}
+
+.el-drawer.btt .songDetails .songInfo .songDetails .title .singers {
+  width: 200px;
+  margin: 5px auto;
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+}
+
+.el-drawer.btt .songDetails .songInfo .songDetails .title .singers .singerName {
+  cursor: pointer;
+}
+
+.el-drawer.btt .songDetails .songInfo .songDetails .title .singers .singerName:hover {
+  color: #000;
+}
+
+.el-drawer.btt .songDetails .songInfo .songDetails .lyrics {
+  width: 438px;
+  height: 318px;
+  overflow: auto;
+}
+
+.el-drawer.btt .songDetails .songInfo .songDetails .lyrics::-webkit-scrollbar {
+  display: none;
+}
+
+.el-drawer.btt .songDetails .songInfo .songDetails .lyrics .placeholder {
+  height: 120px;
+}
+
+.el-drawer.btt .songDetails .songInfo .songDetails .lyrics .word {
+  margin: 30px 20px;
+  color: #666;
+}
+
+.el-drawer.btt .songDetails .songInfo .songDetails .lyrics .word.currentLyric {
+  color: black;
+  font-weight: bold;
+}
+
+.el-drawer.btt .songDetails .songComments {
+  width: 1035px;
+  margin: 50px auto 0;
+}
+
+.el-drawer.btt .songDetails .songComments .hotComments,
+.el-drawer.btt .songDetails .songComments .newComments {
+  width: 100%;
+  margin-bottom: 50px;
+}
+
+.el-drawer.btt .songDetails .songComments .hotComments .title,
+.el-drawer.btt .songDetails .songComments .newComments .title {
+  font-size: 18px;
+  font-weight: bold;
+}
+
+.el-drawer.btt .songDetails .songComments .hotComments .details,
+.el-drawer.btt .songDetails .songComments .newComments .details {
+  display: flex;
+  margin-top: 30px;
+  padding-bottom: 30px;
+  border-bottom: 1px solid #a1a1a1;
+}
+
+.el-drawer.btt .songDetails .songComments .hotComments .details .headerPhoto,
+.el-drawer.btt .songDetails .songComments .newComments .details .headerPhoto {
+  margin-right: 20px;
+  cursor: pointer;
+}
+
+.el-drawer.btt .songDetails .songComments .hotComments .details .headerPhoto img,
+.el-drawer.btt .songDetails .songComments .newComments .details .headerPhoto img {
+  width: 45px;
+  height: 45px;
+  border-radius: 50%;
+}
+
+.el-drawer.btt .songDetails .songComments .hotComments .details .content,
+.el-drawer.btt .songDetails .songComments .newComments .details .content {
+  width: calc(100% - 65px);
+  display: flex;
+  flex-direction: column;
+  font-size: 15px;
+  color: #555;
+}
+
+.el-drawer.btt .songDetails .songComments .hotComments .details .content .user,
+.el-drawer.btt .songDetails .songComments .newComments .details .content .user {
+  width: 100%;
+  margin-bottom: 10px;
+}
+
+.el-drawer.btt .songDetails .songComments .hotComments .details .content .user .username,
+.el-drawer.btt .songDetails .songComments .newComments .details .content .user .username {
+  font-weight: bold;
+  color: #5a8ab9;
+  cursor: pointer;
+}
+
+.el-drawer.btt .songDetails .songComments .hotComments .details .content .at,
+.el-drawer.btt .songDetails .songComments .newComments .details .content .at {
+  width: 100%;
+  padding: 10px 20px;
+  margin: 10px 0;
+  background-color: #deeeee;
+  box-sizing: border-box;
+  border-radius: 10px;
+}
+
+.el-drawer.btt .songDetails .songComments .hotComments .details .content .at .atName,
+.el-drawer.btt .songDetails .songComments .newComments .details .content .at .atName {
+  font-weight: bold;
+  cursor: pointer;
+}
+
+.el-drawer.btt .songDetails .songComments .hotComments .details .content .else,
+.el-drawer.btt .songDetails .songComments .newComments .details .content .else {
+  width: 100%;
+  display: flex;
+  flex-direction: row;
+  position: relative;
+}
+
+.el-drawer.btt .songDetails .songComments .hotComments .details .content .else .operate,
+.el-drawer.btt .songDetails .songComments .newComments .details .content .else .operate {
+  display: flex;
+  flex-direction: row;
+  position: absolute;
+  right: 0;
+}
+
+.el-drawer.btt .songDetails .songComments .hotComments .details .content .else .operate .like,
+.el-drawer.btt .songDetails .songComments .hotComments .details .content .else .operate .share,
+.el-drawer.btt .songDetails .songComments .hotComments .details .content .else .operate .reply,
+.el-drawer.btt .songDetails .songComments .newComments .details .content .else .operate .like,
+.el-drawer.btt .songDetails .songComments .newComments .details .content .else .operate .share,
+.el-drawer.btt .songDetails .songComments .newComments .details .content .else .operate .reply {
+  margin: 0 8px;
+}
+
+.el-drawer.btt .songDetails .songComments .hotComments .details .content .else .operate .like i,
+.el-drawer.btt .songDetails .songComments .hotComments .details .content .else .operate .share i,
+.el-drawer.btt .songDetails .songComments .hotComments .details .content .else .operate .reply i,
+.el-drawer.btt .songDetails .songComments .newComments .details .content .else .operate .like i,
+.el-drawer.btt .songDetails .songComments .newComments .details .content .else .operate .share i,
+.el-drawer.btt .songDetails .songComments .newComments .details .content .else .operate .reply i {
+  cursor: pointer;
+}
+
+.el-drawer.btt .songDetails .pagination {
+  display: flex;
+  justify-content: center;
+  margin: 10px 0 30px;
+}
+
+.el-drawer.btt .el-backtop {
+  right: 20px !important;
+  bottom: 95px !important;
+}
+
+.el-drawer.frostedGlass {
+  backdrop-filter: blur(15px) brightness(95%) !important;
+  background-color: unset !important;
+  background-image: unset !important;
+}
+
+@keyframes spin {
+  from {
+  }
+  to {
+    transform: rotate(360deg);
+  }
 }
