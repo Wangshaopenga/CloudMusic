@@ -5,7 +5,7 @@ let resize = {
         function isResize() {
             const style = document.defaultView.getComputedStyle(el);
             if (width !== style.width || height !== style.height) {
-                binding.value();
+                binding();
             }
             width = style.width;
             height = style.height;

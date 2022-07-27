@@ -16,9 +16,9 @@ import Video from "./Video.vue";
 import Slider from "./Slider.vue";
 import { getPersonalized } from "@/network/api";
 import { ref } from "vue";
-let data = ref([]);
+let data = $ref([]);
 getPersonalized().then((res) => {
-	data.value = res.result;
+	data = res.result;
 });
 </script>
 

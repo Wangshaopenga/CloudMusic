@@ -1,7 +1,7 @@
 <template>
 	<div
 		class="loginBox"
-		ref="loginBox"
+		$ref="loginBox"
 		v-loading="isLoading"
 		element-loading-text="数据加载中，请稍后……"
 	>
@@ -155,14 +155,14 @@ import {
 import { Close, Loading } from "@icon-park/vue-next";
 import { useStore } from "@/store/user";
 import { ElMessage } from "element-plus";
-let key = ref("");
-let qrimg = ref("");
-let isLoading = ref(true);
-let isScan = ref(false);
-let isFailure = ref(false);
-let info = ref("");
+let key = $ref("");
+let qrimg = $ref("");
+let isLoading = $ref(true);
+let isScan = $ref(false);
+let isFailure = $ref(false);
+let info = $ref("");
 const store = useStore();
-const loginBox = ref(null);
+const loginBox = $ref(null);
 let time = "";
 const closed = () => {
 	store.isLogin = false;
@@ -173,24 +173,24 @@ const closed = () => {
 // });
 const login = () => {
 	getQrLoginKey().then((res) => {
-		key.value = res.data.unikey;
+		key = res.data.unikey;
 		createQr(res.data.unikey).then((res) => {
-			qrimg.value = res.data.qrimg;
-			isLoading.value = false;
+			qrimg = res.data.qrimg;
+			isLoading = false;
 		});
 	});
 	time
 		? clearInterval(time)
 		: (time = setInterval(() => {
-				checkQrStatus(key.value).then((res) => {
+				checkQrStatus(key).then((res) => {
 					if (res.code == 800) {
-						info.value = "二维码过期,请刷新重试";
-						isScan.value = false;
-						isFailure.value = true;
+						info = "二维码过期,请刷新重试";
+						isScan = false;
+						isFailure = true;
 						clearInterval(time);
 					} else if (res.code == 802) {
-						isFailure.value = false;
-						isScan.value = true;
+						isFailure = false;
+						isScan = true;
 					} else if (res.code == 803) {
 						window.localStorage.setItem("cookie", res.cookie);
 						store.cookie = res.cookie;

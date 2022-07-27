@@ -66,16 +66,16 @@ import { getSongDetail, search } from "@/network/api";
 const store = useStore();
 const router = useRouter();
 const route = useRoute();
-let isLoading = ref(false); //是否加载
-let data = ref([]); //存储数据
-let type = ref(1); //搜索类型
-let page = ref(1); //页数
-let total = ref(0); //数据总数  用于计算有多少页
+let isLoading = $ref(false); //是否加载
+let data = $ref([]); //存储数据
+let type = $ref(1); //搜索类型
+let page = $ref(1); //页数
+let total = $ref(0); //数据总数  用于计算有多少页
 const init = () => {
-	search(route.query.key, page.value - 1).then((res) => {
-		total.value = res.result.songCount;
-		data.value = res.result.songs;
-		isLoading.value = false;
+	search(route.query.key, page - 1).then((res) => {
+		total = res.result.songCount;
+		data = res.result.songs;
+		isLoading = false;
 	});
 };
 watch(
@@ -89,7 +89,7 @@ watch(
 		}
 	}
 );
-if (data.value.length == 0) {
+if (data.length == 0) {
 	init();
 }
 //修改歌手名称格式
@@ -135,7 +135,7 @@ const addMusic = (itme) => {
 	}
 };
 const changePage = () => {
-	isLoading.value = true;
+	isLoading = true;
 	init();
 };
 </script>

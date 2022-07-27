@@ -390,7 +390,20 @@
 					:size="380"
 				>
 					<!-- 歌曲数量 -->
-					<div class="amount">总{{ store.playList.length }}首</div>
+					<!-- <div class="amount">总{{ store.playList.length }}首</div> -->
+					<div class="header">
+						<span class="play">当前播放</span>
+						<div>
+							<div class="amount">总{{ store.playList.length }}首</div>
+							<div>
+								<span class="collect">
+									<folder-focus-one theme="outline" size="20" fill="#333" />
+									收藏全部
+								</span>
+								<span class="clear">清空列表</span>
+							</div>
+						</div>
+					</div>
 					<el-table
 						:data="store.playList"
 						style="width: 100%"
@@ -444,13 +457,11 @@ import {
 	reactive,
 	computed,
 	watch,
-	toRefs,
-	ref,
 	nextTick,
 	watchEffect,
 	onMounted,
 } from "vue";
-import { Download } from "@icon-park/vue-next";
+import { Download, FolderFocusOne } from "@icon-park/vue-next";
 //引入element-plus图标
 import { ArrowDownBold } from "@element-plus/icons-vue";
 import { useStore } from "@/store/user";
@@ -462,13 +473,13 @@ const store = useStore();
 // 定义变量 router 用来进行路由操作、
 const router = useRouter();
 // 定义计算属性 playState 用来保存歌曲的播放状态（从vuex中获取）
-let playState = ref(false);
+let playState = $ref(false);
 onMounted(() => {
-	music.value.volume = store.volumes / 100;
+	music.volume = store.volumes / 100;
 	if (JSON.stringify(info.songInfo) == "{}" && store.playList.length != 0) {
 		info.songInfo = store.playList[store.playNumber];
 		getUrl(info.songInfo.id, store.cookie).then((res) => {
-			songUrl.value = res.data[0].url;
+			songUrl = res.data[0].url;
 		});
 	}
 });
@@ -479,7 +490,7 @@ watch(
 		if (store.playList.length != 0) {
 			info.songInfo = store.playList[store.playNumber];
 			getUrl(info.songInfo.id, store.cookie).then((res) => {
-				songUrl.value = res.data[0].url;
+				songUrl = res.data[0].url;
 				changePlayState(true);
 			});
 		}
@@ -495,9 +506,9 @@ const f = () => {
 	console.log(123);
 };
 //播放器
-let music = ref("");
+let music = $ref("");
 //歌曲URL
-let songUrl = ref("");
+let songUrl = $ref("");
 // 定义变量 info 用来保存当前组件的响应式数据
 const info = reactive({
 	//歌曲信息
@@ -620,19 +631,19 @@ const getComments = async (flag) => {
 };
 // 定义播放歌曲的方法
 const playSong = () => {
-	music.value.play();
+	music.play();
 };
 
 // 定义暂停歌曲的方法
 const pauseSong = () => {
-	music.value.pause();
+	music.pause();
 };
 
 // 定义点击按钮控制歌曲播放或者暂停的方法
 const changePlayState = (val) => {
-	if (songUrl.value) {
+	if (songUrl) {
 		// 修改歌曲的播放状态
-		playState.value = val;
+		playState = val;
 	} else {
 		ElMessage({
 			message: "暂无可播放的歌曲",
@@ -660,7 +671,7 @@ const toTime = (sec) => {
 };
 // 监视播放状态
 watch(
-	() => playState.value,
+	() => playState,
 	(newValue, oldValue) => {
 		nextTick(() => {
 			// 根据新的播放状态进行播放或暂停的操作
@@ -672,9 +683,9 @@ watch(
 
 // 定义拖动音频进度条的方法
 const changeMusicDuration = (val) => {
-	if (songUrl.value) {
+	if (songUrl) {
 		// 更改音频的时长
-		music.value.currentTime = val;
+		music.currentTime = val;
 		// 将当前歌词的索引重置为 0
 		info.currenLyricIndex = 0;
 	} else {
@@ -688,9 +699,9 @@ const changeMusicDuration = (val) => {
 
 // 定义点击音频进度条的方法
 const clickSongSlider = (val) => {
-	if (songUrl.value) {
+	if (songUrl) {
 		// 更改音频的时长
-		music.value.currentTime = val;
+		music.currentTime = val;
 		// 将当前歌词的索引重置为 0
 		info.currenLyricIndex = 0;
 	}
@@ -699,7 +710,7 @@ const clickSongSlider = (val) => {
 // 定义拖动音量进度条的方法
 const changeVolumeProgress = (val) => {
 	// 修改音量的值
-	music.value.volume = store.volumes / 100;
+	music.volume = store.volumes / 100;
 	// 判断进度条的值是否为 0
 	info.isMute = val ? false : true;
 };
@@ -707,7 +718,7 @@ const changeVolumeProgress = (val) => {
 // 定义点击音量进度条的方法
 const clickVolumeSlider = (val) => {
 	// 修改音量的值
-	music.value.volume = music.value.volume = store.volumes / 100;
+	music.volume = music.volume = store.volumes / 100;
 	// 判断进度条的值是否为 0
 	info.isMute = val ? false : true;
 };
@@ -715,7 +726,7 @@ const clickVolumeSlider = (val) => {
 // 定义切换到下一首歌曲的方法
 const next = () => {
 	// 将之前歌曲的播放状态设置为暂停
-	if (songUrl.value) {
+	if (songUrl) {
 		// 判断歌曲循环方式是否为随机播放
 		if (store.playMode === 1) {
 			random();
@@ -742,7 +753,7 @@ const next = () => {
 
 // 定义切换到上一首歌曲的方法
 const prev = () => {
-	if (songUrl.value) {
+	if (songUrl) {
 		if (store.playList.length === 1) {
 			ElMessage({
 				message: "当前播放列表只有一首歌曲",
@@ -903,11 +914,11 @@ const changeMute = () => {
 		// 将旧的音量值保存一份
 		info.oldVolume = store.volumes;
 		// 将音频音量设置为 0
-		music.value.volume = 0;
+		music.volume = 0;
 		store.volumes = 0;
 	} else {
 		// 将音频音量设置为之前保存的值
-		music.value.volume = info.oldVolume / 100;
+		music.volume = info.oldVolume / 100;
 		store.volumes = info.oldVolume;
 	}
 };
@@ -961,7 +972,7 @@ watchEffect(() => {
 
 // 监视当前播放歌曲信息的变化
 watchEffect(() => {
-	if (songUrl.value && info.songInfo.id) {
+	if (songUrl && info.songInfo.id) {
 		// 获取歌词
 		getLyric();
 		// 获取评论

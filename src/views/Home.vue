@@ -23,9 +23,9 @@ import PlayList from "@/components/Home/PlayList.vue";
 import { computed, onMounted, onUnmounted, ref } from "vue";
 import { useStore } from "../store/user.js";
 import { getPlayRecord } from "@/network/api.js";
-let isCollapse = ref(true); //左侧是否详细
-let isLogin = ref(false); //是否展示登录界面
-const container = ref(null);
+let isCollapse = $ref(true); //左侧是否详细
+let isLogin = $ref(false); //是否展示登录界面
+const container = $ref(null);
 const store = useStore();
 onMounted(() => {
 	store.isPlayList = false;
@@ -39,10 +39,10 @@ onUnmounted(() => {
 	window.removeEventListener("resize", getWidth);
 });
 const getWidth = () => {
-	if (container.value) {
-		// console.log(container.value.offsetWidth, isCollapse.value);
-		isCollapse.value = container.value.offsetWidth >= 1090 ? false : true;
-		// console.log(container.value.offsetWidth, isCollapse.value);
+	if (container) {
+		// console.log(container.offsetWidth, isCollapse);
+		isCollapse = container.offsetWidth >= 1090 ? false : true;
+		// console.log(container.offsetWidth, isCollapse);
 	}
 };
 const f = () => {

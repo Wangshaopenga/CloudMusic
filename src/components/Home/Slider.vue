@@ -15,10 +15,10 @@
 <script setup>
 import { onMounted, ref } from "vue";
 import { getSlider } from "@/network/api";
-let data = ref([]);
+let data = $ref([]);
 onMounted(() => {
 	getSlider().then((res) => {
-		data.value = res.banners;
+		data = res.banners;
 	});
 });
 </script>

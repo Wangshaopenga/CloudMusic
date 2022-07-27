@@ -70,7 +70,7 @@ import { useStore } from "@/store/user";
 import { useRouter } from "vue-router";
 const store = useStore();
 const router = useRouter();
-let data = ref([]);
+let data = $ref([]);
 //删除某个搜索历史
 const delSearchHistory = (index) => {
 	store.searchHistory.splice(index, 1);
@@ -80,7 +80,7 @@ const delAllHistory = () => {
 	store.searchHistory = [];
 };
 getSearchList().then((res) => {
-	data.value = res.data;
+	data = res.data;
 });
 const search = (itme, flag = false) => {
 	store.isSearch = false;

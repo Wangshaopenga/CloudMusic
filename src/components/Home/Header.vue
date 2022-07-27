@@ -55,11 +55,11 @@ import { useStore } from "@/store/user";
 import { useRouter } from "vue-router";
 import { Back, Right } from "@element-plus/icons-vue";
 const router = useRouter();
-let searchDefaultKey = ref("");
+let searchDefaultKey = $ref("");
 const store = useStore();
 onMounted(() => {
 	getsearchDefaultKey().then((res) => {
-		searchDefaultKey.value = res.data.realkeyword;
+		searchDefaultKey = res.data.realkeyword;
 	});
 });
 if (!store.cookie) {
@@ -72,7 +72,7 @@ if (!store.cookie) {
 const goSearch = () => {
 	store.searchInfo
 		? router.push({ name: "search", query: { key: store.searchInfo } })
-		: router.push({ name: "search", query: { key: searchDefaultKey.value } });
+		: router.push({ name: "search", query: { key: searchDefaultKey } });
 };
 const back = () => {
 	router.go(-1);
