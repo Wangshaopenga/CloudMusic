@@ -5,9 +5,9 @@
 		</div>
 		<div class="banner">
 			<ul>
-				<li @click="active = 1" :class="{ active: active == 1 }">单曲</li>
-				<li @click="active = 100" :class="{ active: active == 100 }">歌手</li>
-				<li @click="active = 1000" :class="{ active: active == 1000 }">歌单</li>
+				<li @click="type = 1" :class="{ active: type == 1 }">单曲</li>
+				<li @click="type = 100" :class="{ active: type == 100 }">歌手</li>
+				<li @click="type = 1000" :class="{ active: type == 1000 }">歌单</li>
 			</ul>
 		</div>
 		<div
@@ -15,7 +15,7 @@
 			v-loading="isLoading"
 			element-loading-text="数据加载中,请稍后..."
 		>
-			<div class="body">
+			<div class="song" v-if="type == 1">
 				<div class="info top">
 					<div class="index"></div>
 					<div class="name" style="color: #323232">音乐标题</div>
@@ -51,6 +51,8 @@
 					</el-pagination>
 				</div>
 			</div>
+			<div class="author" v-else-if="type == 100">123</div>
+			<div class="author" v-else-if="type == 1000">12345</div>
 		</div>
 	</div>
 </template>
@@ -66,7 +68,7 @@ const router = useRouter();
 const route = useRoute();
 let isLoading = ref(false); //是否加载
 let data = ref([]); //存储数据
-let active = ref(1); //搜索类型
+let type = ref(1); //搜索类型
 let page = ref(1); //页数
 let total = ref(0); //数据总数  用于计算有多少页
 const init = () => {
@@ -184,7 +186,7 @@ const changePage = () => {
 		}
 	}
 	.content {
-		.body {
+		.song {
 			height: 540px;
 			width: 98%;
 			overflow-y: scroll;

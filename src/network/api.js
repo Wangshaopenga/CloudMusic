@@ -82,9 +82,9 @@ export function logout(cookie) {
     })
 }
 //搜索
-export function search(data, page) {
+export function search(data, page, type = 1) {
     return request({
-        url: `/search?keywords=${data}&limit=50&offset=${page}`,
+        url: `/search?keywords=${data}&limit=50&offset=${page}&type=${type}`,
     })
 }
 
@@ -120,8 +120,7 @@ export const lyric = (id) => {
 //获取歌曲的评论
 export const comment = (id, offset) => {
     return request({
-      url: `/comment/music?id=${id}&offset=${offset}`,
-      method: 'GET',
+        url: `/comment/music?id=${id}&offset=${offset}`,
+        method: 'GET',
     })
-  }
-  
+}

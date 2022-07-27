@@ -19,7 +19,7 @@ const routes = [
     {
         path: '/test',
         name: 'test',
-        component: () => import('@/components/Home/123.vue')
+        component: () => import('@/components/Home/Player.vue')
     },
 ];
 const router = createRouter({

@@ -461,17 +461,15 @@ import { ElMessage } from "element-plus";
 const store = useStore();
 // 定义变量 router 用来进行路由操作、
 const router = useRouter();
-
 // 定义计算属性 playState 用来保存歌曲的播放状态（从vuex中获取）
 let playState = ref(false);
 onMounted(() => {
+	music.value.volume = store.volumes / 100;
 	if (JSON.stringify(info.songInfo) == "{}" && store.playList.length != 0) {
-		if (store.playList.length != 1) {
-			getSongInfo();
-			console.log(songUrl.value);
-		} else {
-			getSongInfo();
-		}
+		info.songInfo = store.playList[store.playNumber];
+		getUrl(info.songInfo.id, store.cookie).then((res) => {
+			songUrl.value = res.data[0].url;
+		});
 	}
 });
 watch(
@@ -479,8 +477,11 @@ watch(
 	() => {
 		changePlayState(false);
 		if (store.playList.length != 0) {
-			getSongInfo();
-			changePlayState(true);
+			info.songInfo = store.playList[store.playNumber];
+			getUrl(info.songInfo.id, store.cookie).then((res) => {
+				songUrl.value = res.data[0].url;
+				changePlayState(true);
+			});
 		}
 	}
 );
@@ -538,12 +539,6 @@ const info = reactive({
 		return toTime(Math.ceil(info.songInfo.dt / 1000)) || "00:00";
 	}),
 });
-//获取歌曲信息
-const getSongInfo = async () => {
-	info.songInfo = store.playList[store.playNumber];
-	let res = await getUrl(info.songInfo.id, store.cookie);
-	songUrl.value = res.data[0].url;
-};
 // 定义获取歌曲歌词的方法
 const getLyric = async () => {
 	// 需要重新获取歌词数据时，将歌词的自动滚动状态设置为 false

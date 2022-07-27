@@ -24,7 +24,7 @@ export function request(config) {
         return res.data ? res.data : res;
     }, err => {
         //有问题显示问题
-        console.log(err.response.data);
+        console.error(err.response.data);
     })
 
     return instance(config)
