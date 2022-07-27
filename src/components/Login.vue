@@ -1,7 +1,7 @@
 <template>
 	<div
 		class="loginBox"
-		$ref="loginBox"
+		ref="loginBox"
 		v-loading="isLoading"
 		element-loading-text="数据加载中，请稍后……"
 	>
@@ -168,9 +168,6 @@ const closed = () => {
 	store.isLogin = false;
 	time ? clearInterval(time) : "";
 };
-// logout(store.cookie).then((res) => {
-// 	store.cookie = "";
-// });
 const login = () => {
 	getQrLoginKey().then((res) => {
 		key = res.data.unikey;

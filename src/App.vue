@@ -1,23 +1,25 @@
 <template>
-	<el-container>
-		<el-header>
-			<Header />
-		</el-header>
-		<el-container class="main">
-			<el-aside width="220px">
-				<Siderbar />
-			</el-aside>
-			<el-main class="view">
-				<router-view />
-			</el-main>
+	<div ref="container">
+		<el-container>
+			<el-header>
+				<Header />
+			</el-header>
+			<el-container class="main">
+				<el-aside width="auto">
+					<Siderbar :isCollapse="isCollapse" />
+				</el-aside>
+				<el-main class="view">
+					<router-view />
+				</el-main>
+			</el-container>
+			<el-footer>
+				<Player />
+			</el-footer>
 		</el-container>
-		<el-footer>
-			<Player />
-		</el-footer>
-	</el-container>
-	<Transition>
-		<Login v-if="store.isLogin" class="login" />
-	</Transition>
+		<Transition>
+			<Login v-if="store.isLogin" class="login" />
+		</Transition>
+	</div>
 </template>
 
 <script setup>
@@ -25,31 +27,26 @@ import Siderbar from "@/components/Home/Siderbar.vue";
 import Header from "@/components/Home/Header.vue";
 import Login from "@/components/Login.vue";
 import Player from "@/components/Home/Player.vue";
-import PlayList from "@/components/Home/PlayList.vue";
-import { computed, onMounted, onUnmounted, reactive, ref } from "vue";
+import { computed, nextTick, onMounted, onUnmounted, reactive, ref } from "vue";
 import { useStore } from "@/store/user.js";
 import { getPlayRecord } from "@/network/api.js";
 let isCollapse = $ref(true); //左侧是否详细
 let isLogin = $ref(false); //是否展示登录界面
-const container = $ref(null);
+const container = $ref();
 const store = useStore();
 onMounted(() => {
-	store.isPlayList = false;
-	store.searchInfo = "";
-	setTimeout(() => {
-		getWidth();
-		window.addEventListener("resize", getWidth);
-	}, 2300);
+	getWidth();
+	window.addEventListener("resize", getWidth);
 });
 onUnmounted(() => {
 	window.removeEventListener("resize", getWidth);
 });
 const getWidth = () => {
+	// nextTick(() => {
 	if (container) {
-		// console.log(container.offsetWidth, isCollapse);
 		isCollapse = container.offsetWidth >= 1090 ? false : true;
-		// console.log(container.offsetWidth, isCollapse);
 	}
+	// });
 };
 const f = (f) => {
 	console.log(f);
@@ -102,18 +99,6 @@ const f = (f) => {
 	background-color: #e0e0e0;
 	border-radius: 10px;
 }
-// .player {
-// 	position: fixed;
-// 	bottom: 0;
-// 	z-index: 999;
-// 	width: 100%;
-// 	height: 60px;
-// 	background: #fff;
-// 	border-top: 1px solid rgba(0, 0, 0, 0.1);
-// }
-// img {
-// 	max-width: 100%;
-// }
 .login {
 	position: absolute;
 	width: 350px;
@@ -125,18 +110,12 @@ const f = (f) => {
 	border-radius: 10px;
 }
 
-// .wrapper {
-// 	display: flex;
-// 	flex-direction: column;
-// 	flex-grow: 1;
-// }
-
-// .v-enter-active,
-// .v-leave-active {
-// 	transition: opacity 0.5s ease;
-// }
-// .v-enter-from,
-// .v-leave-to {
-// 	opacity: 0;
-// }
+.v-enter-active,
+.v-leave-active {
+	transition: opacity 0.5s ease;
+}
+.v-enter-from,
+.v-leave-to {
+	opacity: 0;
+}
 </style>

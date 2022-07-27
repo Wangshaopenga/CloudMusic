@@ -393,14 +393,16 @@
 					<!-- <div class="amount">总{{ store.playList.length }}首</div> -->
 					<div class="header">
 						<span class="play">当前播放</span>
-						<div>
+						<div class="contnet">
 							<div class="amount">总{{ store.playList.length }}首</div>
 							<div>
 								<span class="collect">
 									<folder-focus-one theme="outline" size="20" fill="#333" />
 									收藏全部
 								</span>
-								<span class="clear">清空列表</span>
+								<span class="clear" @click="store.playList = []">
+									清空列表
+								</span>
 							</div>
 						</div>
 					</div>
@@ -422,7 +424,7 @@
 						</el-table-column>
 						<el-table-column
 							prop="ar[0].name"
-							width="90"
+							width="125"
 							label="歌手"
 							align="left"
 						>
@@ -451,7 +453,7 @@
 
 <script setup>
 // 引入接口 API
-import { lyric, comment, getSongDetail, getUrl } from "@/network/api";
+import { lyric, comment, getUrl } from "@/network/api";
 // 引入 composition API
 import {
 	reactive,
@@ -1041,6 +1043,9 @@ const roll = (el, target, direction) => {
 </script>
 
 <style lang="scss" scoped>
+* {
+	box-sizing: border-box;
+}
 .el-slider {
 	--el-slider-button-size: 10px;
 	--el-slider-button-wrapper-size: 20px;
@@ -1158,6 +1163,35 @@ const roll = (el, target, direction) => {
 				color: #555;
 				cursor: pointer;
 			}
+		}
+	}
+}
+.header {
+	position: relative;
+	top: 0%;
+	border-bottom: 1px solid rgba(0, 0, 0, 0.2);
+	height: 12%;
+	padding: 10px;
+	.play {
+		font-weight: bold;
+		font-size: 24px;
+	}
+	.contnet {
+		padding-top: 10px;
+		font-size: 16px;
+		display: flex;
+		justify-content: space-between;
+		.total {
+			font-size: 14px;
+			color: #e0e0e0;
+		}
+		.collect {
+			cursor: pointer;
+		}
+		.clear {
+			margin-left: 10px;
+			color: #54a0ff;
+			cursor: pointer;
 		}
 	}
 }

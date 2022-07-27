@@ -66,7 +66,7 @@ import { getSongDetail, search } from "@/network/api";
 const store = useStore();
 const router = useRouter();
 const route = useRoute();
-let isLoading = $ref(false); //是否加载
+let isLoading = $ref(true); //是否加载
 let data = $ref([]); //存储数据
 let type = $ref(1); //搜索类型
 let page = $ref(1); //页数

@@ -9,7 +9,7 @@
 				@focus="store.isSearch = true"
 				@blur="store.isSearch = false"
 				type="text"
-				v-model="store.searchInfo"
+				v-model="searchInfo"
 				:placeholder="searchDefaultKey"
 				@keydown.enter="goSearch"
 			/>
@@ -56,6 +56,7 @@ import { useRouter } from "vue-router";
 import { Back, Right } from "@element-plus/icons-vue";
 const router = useRouter();
 let searchDefaultKey = $ref("");
+let searchInfo = $ref("");
 const store = useStore();
 onMounted(() => {
 	getsearchDefaultKey().then((res) => {
@@ -70,9 +71,10 @@ if (!store.cookie) {
 	};
 }
 const goSearch = () => {
-	store.searchInfo
-		? router.push({ name: "search", query: { key: store.searchInfo } })
+	searchInfo
+		? router.push({ name: "search", query: { key: searchInfo } })
 		: router.push({ name: "search", query: { key: searchDefaultKey } });
+	searchInfo = "";
 };
 const back = () => {
 	router.go(-1);

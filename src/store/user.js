@@ -15,8 +15,6 @@ export const useStore = defineStore('stroe', {
             playNumber: 0,//播放的是第几首歌曲
             volumes: 70,//音量
             playMode: 0,//列表播放类型 0：顺序 1：循环 2：随机
-            isPlayList: false,//是否展示播放列表
-            searchInfo: "",//搜索信息
         }
     },
     getters: {
