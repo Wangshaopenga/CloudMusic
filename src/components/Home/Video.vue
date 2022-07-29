@@ -18,8 +18,8 @@
 </template>
 
 <script setup>
-import { computed } from "vue";
-const props = defineProps(["playList"]);
+import { computed } from 'vue';
+const props = defineProps(['playList']);
 const bgImage = computed(() => {
     return {
         backgroundImage: `url('${props.playList.picUrl}')`,
@@ -28,7 +28,19 @@ const bgImage = computed(() => {
 </script>
 
 <style lang="scss" scoped>
+@keyframes bottom {
+    0% {
+        transform: translateY(100px);
+        opacity: 0;
+    }
+
+    100% {
+        opacity: 1;
+        transform: none;
+    }
+}
 .author {
+    animation: bottom .2s;
     &-img {
         width: 26px;
         height: 26px;
@@ -113,7 +125,7 @@ const bgImage = computed(() => {
         display: inline-flex;
         position: relative;
         &:before {
-            content: "";
+            content: '';
             background-color: #22b07d;
             width: 8px;
             height: 8px;

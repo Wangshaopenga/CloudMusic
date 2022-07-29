@@ -56,6 +56,11 @@
   resolved "https://registry.npmmirror.com/@types/web-bluetooth/-/web-bluetooth-0.0.14.tgz#94e175b53623384bff1f354cdb3197a8d63cdbe5"
   integrity sha512-5d2RhCard1nQUC3aHcq/gHzWYO6K0WJmAbjO7mQJgCQKtZpgXxv1rOM6O/dBDhDYYVutk1sciOgNSe+5YyfM8A==
 
+"@types/web-bluetooth@^0.0.15":
+  version "0.0.15"
+  resolved "https://registry.npmmirror.com/@types/web-bluetooth/-/web-bluetooth-0.0.15.tgz#d60330046a6ed8a13b4a53df3813c44942ebdf72"
+  integrity sha512-w7hEHXnPMEZ+4nGKl/KDRVpxkwYxYExuHOYXyzIzCDzEZ9ZCGMAewulr9IqJu2LR4N37fcnb1XVeuZ09qgOxhA==
+
 "@vitejs/plugin-vue@^2.3.3":
   version "2.3.3"
   resolved "https://registry.npmmirror.com/@vitejs/plugin-vue/-/plugin-vue-2.3.3.tgz#fbf80cc039b82ac21a1acb0f0478de8f61fbf600"
@@ -166,15 +171,37 @@
     "@vueuse/shared" "8.9.1"
     vue-demi "*"
 
+"@vueuse/core@^9.0.0":
+  version "9.0.0"
+  resolved "https://registry.npmmirror.com/@vueuse/core/-/core-9.0.0.tgz#2e3d37dc08e1e18ebe385c40a41a7d2b7eb2ae0c"
+  integrity sha512-hMMc2ajuVknkL7Z39JdP9gFFND2OgnDTSS5mmuinWGAE1Vxy1AwDvTHm3+juyk+GzJjYRAktnBIPy7Fq53iOnw==
+  dependencies:
+    "@types/web-bluetooth" "^0.0.15"
+    "@vueuse/metadata" "9.0.0"
+    "@vueuse/shared" "9.0.0"
+    vue-demi "*"
+
 "@vueuse/metadata@8.9.1":
   version "8.9.1"
   resolved "https://registry.npmmirror.com/@vueuse/metadata/-/metadata-8.9.1.tgz#5699e7d9a67894b8490cfb61c37beb0428e6fe07"
   integrity sha512-6LADOlyl3oENHa9dsoY7LXjU1Mh14DnpM6ztETI3hpm5ZffOMIG5CB2Q6aEZfIvYr1lkJVmG2L82wFKk7VRfIA==
 
+"@vueuse/metadata@9.0.0":
+  version "9.0.0"
+  resolved "https://registry.npmmirror.com/@vueuse/metadata/-/metadata-9.0.0.tgz#330cdd814f4b0a39ce41811ff6193f1c78d4f850"
+  integrity sha512-79YVIsAP1bbWm5GdQuG7jDVF/9uuExzhkO0Sd4/TLuSfzH2uZOrHvGwy+ZNJHjbyRn3uf56rKINWLJdBuTLSqQ==
+
 "@vueuse/shared@8.9.1":
   version "8.9.1"
   resolved "https://registry.npmmirror.com/@vueuse/shared/-/shared-8.9.1.tgz#1b48414c06d1e3d14fe3f32bf72f5fab35451a3d"
   integrity sha512-klZfn7ijI3juqVgpfQVrrlBh4uTFajwSCWm8Cdt45Kg26b1LZ9jn9n7J6GhmkFay5016GnjjivQoekQSMeJNUg==
+  dependencies:
+    vue-demi "*"
+
+"@vueuse/shared@9.0.0":
+  version "9.0.0"
+  resolved "https://registry.npmmirror.com/@vueuse/shared/-/shared-9.0.0.tgz#0048c0567159a82a540195339a6752497d13c6ac"
+  integrity sha512-WRCyr/wIz5e/2gR/+qFucbCUcGMyJKkQZAzlECl3e71ebQQ9X/w3aBWT9FbnogJX+DNZ/t3Pj+TqPbC7TH1Yog==
   dependencies:
     vue-demi "*"
 
