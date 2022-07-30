@@ -1,16 +1,19 @@
 <template>
-    <div class="singerDetails">
+    <div
+        class="singerDetails"
+        v-loading="isLoading"
+        element-loading-text="数据加载中,请稍后...">
         <!-- 歌手介绍 -->
         <div class="singerIntroduce">
             <!-- 歌手封面图片 -->
             <div class="cover">
-                <!-- <img v-if="singerInfo.cover" :src="singerInfo.cover" alt="" /> -->
-                <img src="@/assets/logo.png" alt="" />
+                <img v-if="singerInfo.picUrl" :src="singerInfo.picUrl" alt="" />
+                <img v-else src="@/assets/img/loading.png" alt="" />
             </div>
             <!-- 歌手介绍 -->
             <div class="introduce">
                 <!-- 歌手名称 -->
-                <div class="name">许嵩</div>
+                <div class="name">{{ singerInfo.name }}</div>
                 <!-- 操作 -->
                 <div class="operate">
                     <!-- 收藏 -->
@@ -26,9 +29,15 @@
                 </div>
                 <!-- 作品介绍 -->
                 <div class="worksIntroduce">
-                    <span class="songsCount">单曲数： 123 </span>
-                    <span class="collectionsCount">专辑数： 234 </span>
-                    <span class="videoCount">MV数: 567 </span>
+                    <span class="songsCount">
+                        单曲数： {{ singerInfo.musicSize }}
+                    </span>
+                    <span class="collectionsCount">
+                        专辑数： {{ singerInfo.albumSize }}
+                    </span>
+                    <span class="videoCount">
+                        MV数: {{ singerInfo.mvSize }}
+                    </span>
                 </div>
             </div>
         </div>
@@ -48,30 +57,72 @@
                     </li>
                 </ul>
             </div>
-            <div class="album">
+            <div v-show="type == 1" class="album">
                 <Album :data="hotSongs" />
+                <Album v-for="itme in showAlbums" :key="itme" :album="itme" />
+                <div v-if="hotSongs.length != 0" ref="bottom" class="bottom">
+                    <loading-one
+                        class="rotate"
+                        theme="outline"
+                        size="24"
+                        fill="#333" />
+                    数据加载中...
+                </div>
             </div>
         </div>
-        <!-- 回到顶部 -->
-        <el-backtop target=".singerDetails" :bottom="120"></el-backtop>
     </div>
 </template>
 
 <script setup>
 import Album from '@/components/Album.vue';
-import { getHotSong, getSingerCollection } from '@/network/api';
-import { getCollectionDetail } from '../network/api';
+import {
+    getHotSong,
+    getSingerCollection,
+    getCollectionDetail,
+} from '@/network/api';
+import { onMounted, ref, } from 'vue';
+import { LoadingOne } from '@icon-park/vue-next';
+import { useIntersectionObserver } from '@vueuse/core';
+import { useRoute } from 'vue-router';
 let type = $ref('1');
 let hotSongs = $ref([]);
-getHotSong(5771).then((res) => {
-    hotSongs = res.hotSongs;
-}); 
-getSingerCollection(5771).then((res) => {
-    console.log(res);
-    getCollectionDetail(res.hotAlbums[2].id).then(re=>{
-      console.log('re', re)
-    })
+let albums = $ref([]);
+let showAlbums = $ref([]);
+let bottom = ref();
+let count = $ref(3);
+let singerInfo = $ref({});
+let isLoading = $ref(true);
+const route = useRoute();
+onMounted(() => {
+    init();
 });
+useIntersectionObserver(bottom, ([{ isIntersecting }], observerElement) => {
+    if (isIntersecting && count < albums.length) {
+        getCollectionDetail(albums[count++].id).then((res) => {
+            showAlbums.push(res);
+        });
+    }
+});
+const init = () => {
+    getHotSong(route.query.id).then((res) => {
+        singerInfo = res.artist;
+        console.log(singerInfo);
+        hotSongs = res.hotSongs;
+        getSingerCollection(route.query.id).then((res) => {
+            getCollectionDetail(res.hotAlbums[0].id).then((res) => {
+                showAlbums.push(res);
+            });
+            getCollectionDetail(res.hotAlbums[1].id).then((res) => {
+                showAlbums.push(res);
+            });
+            getCollectionDetail(res.hotAlbums[2].id).then((res) => {
+                showAlbums.push(res);
+            });
+            albums = res.hotAlbums;
+            isLoading = false;
+        });
+    });
+};
 </script>
 
 <style lang="scss" scoped>
@@ -88,8 +139,8 @@ getSingerCollection(5771).then((res) => {
         .cover {
             margin-right: 20px;
             img {
-                width: 187px;
-                height: 187px;
+                width: 200px;
+                height: 200px;
                 border-radius: 10px;
             }
         }
@@ -165,6 +216,25 @@ getSingerCollection(5771).then((res) => {
                 }
             }
         }
+    }
+}
+.bottom {
+    margin-top: 20px;
+    width: 100%;
+    height: 30px;
+    text-align: center;
+    line-height: 30px;
+    overflow: hidden;
+}
+.rotate {
+    animation: rotate 2s linear infinite;
+}
+@keyframes rotate {
+    from {
+        transform: rotate(0);
+    }
+    to {
+        transform: rotate(360deg);
     }
 }
 </style>

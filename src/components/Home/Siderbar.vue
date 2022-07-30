@@ -94,8 +94,8 @@ const props = defineProps({
     outline: none;
     box-sizing: border-box;
 }
-
 .sidebar {
+    width: 220px;
     height: 100%;
     padding: 20px;
     padding-left: 30px;
@@ -106,13 +106,12 @@ const props = defineProps({
     overflow: hidden;
     color: #5a5b60;
     border-right: 1px solid rgb(128 129 145 / 24%);
-    margin-bottom: 100px;
-	transition: all .2s;
+    //     margin-bottom: 100px;
     .logo {
         display: none;
         width: 30px;
         height: 30px;
-        background-color: #16bd80;
+        background-color: #22b07d;
         flex-shrink: 0;
         color: #333;
         align-items: center;
@@ -135,7 +134,7 @@ const props = defineProps({
             color: #000;
             font-weight: 600;
             svg {
-                color: #fff;
+                fill:#fff;
             }
             &:nth-child(2n + 1) {
                 svg {
@@ -155,10 +154,13 @@ const props = defineProps({
         }
     }
     &.collapse {
+        transition: all .2s;
         width: 90px;
+        border-right: 1px solid rgb(128 129 145 / 24%);
         .logo-expand,
         .side-title {
             display: none;
+            transition: all .2s;
         }
         .logo {
             display: flex;
@@ -171,8 +173,6 @@ const props = defineProps({
         }
     }
 }
-
-
 
 .side-menu {
     display: flex;
@@ -213,14 +213,127 @@ const props = defineProps({
         border-bottom: none;
     }
 }
+// * {
+//     outline: none;
+//     box-sizing: border-box;
+// }
 
-::-webkit-scrollbar {
-    width: 6px;
-    border-radius: 10px;
-}
+// .sidebar {
+//     width: 220px;
+//     height: 100%;
+//     padding: 20px;
+//     padding-left: 30px;
+//     display: flex;
+//     flex-direction: column;
+//     flex-shrink: 0;
+//     transition-duration: 0.2s;
+//     overflow: hidden;
+//     color: #5a5b60;
+//     border-right: 1px solid rgb(128 129 145 / 24%);
+//     margin-bottom: 100px;
+//     .logo {
+//         display: none;
+//         width: 30px;
+//         height: 30px;
+//         background-color: #16bd80;
+//         flex-shrink: 0;
+//         color: #333;
+//         align-items: center;
+//         border-radius: 50%;
+//         justify-content: center;
 
-::-webkit-scrollbar-thumb {
-    background-color: red;
-    border-radius: 10px;
-}
+//         &-expand {
+//             text-decoration: none;
+//             color: #000;
+//             font-size: 19px;
+//             font-weight: 600;
+//             line-height: 34px;
+//             position: sticky;
+//             top: 0;
+//         }
+//     }
+//     &-link {
+//         &:hover,
+//         &.is-active {
+//             color: #000;
+//             font-weight: 600;
+//             svg {
+//                 color: #fff;
+//             }
+//             &:nth-child(2n + 1) {
+//                 svg {
+//                     background: #ff7551;
+//                 }
+//             }
+//             &:nth-child(2n) {
+//                 svg {
+//                     background: #32a7e2;
+//                 }
+//             }
+//             &:nth-child(2n + 3) {
+//                 svg {
+//                     background: #6c5ecf;
+//                 }
+//             }
+//         }
+//     }
+// }
+// .collapse {
+//     transition: width 1s;
+//     width: 90px;
+//     // background: red;
+//     .logo-expand,
+//     .side-title {
+//         display: none;
+//     }
+//     .logo {
+//         display: flex;
+//     }
+//     .side-wrapper {
+//         width: 30px;
+//     }
+//     .side-menu svg {
+//         margin-right: 30px;
+//     }
+// }
+
+// .side-menu {
+//     display: flex;
+//     flex-direction: column;
+//     a {
+//         display: flex;
+//         align-items: center;
+//         text-decoration: none;
+//         color: #808191;
+//         & + a {
+//             margin-top: 26px;
+//         }
+//     }
+//     svg {
+//         width: 30px;
+//         padding: 8px;
+//         border-radius: 10px;
+//         background-color: #353340;
+//         flex-shrink: 0;
+//         margin-right: 16px;
+//         &:hover {
+//             color: #fff;
+//         }
+//     }
+// }
+
+// .side-title {
+//     font-size: 12px;
+//     letter-spacing: 0.07em;
+//     margin-bottom: 24px;
+// }
+
+// .side-wrapper {
+//     border-bottom: 1px solid rgb(128 129 145 / 24%);
+//     padding: 36px 0;
+//     width: 145px;
+//     & + & {
+//         border-bottom: none;
+//     }
+// }
 </style>

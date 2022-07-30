@@ -25,7 +25,7 @@ import Slider from './Slider.vue';
 import { LoadingOne } from '@icon-park/vue-next';
 import { getPersonalized } from '@/network/api';
 import { useIntersectionObserver } from '@vueuse/core';
-import { ref, onMounted } from 'vue';
+import { ref, } from 'vue';
 const bottom = ref();
 let data = $ref([]);
 useIntersectionObserver(bottom, ([{ isIntersecting }], observerElement) => {
