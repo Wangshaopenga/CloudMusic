@@ -1,16 +1,16 @@
 <template>
     <div class="video anim" :style="[bgImage]" style="--delay: 0.5s">
         <!-- 时间 -->
-        <div class="video-count">歌曲数量:{{ props.playList.trackCount }}</div>
+        <div class="video-count">{{ count }}</div>
         <div class="video-wrapper">
             <div class="div"></div>
             <!-- 头像 -->
             <div class="author-img__wrapper video-author">
-                <img class="author-img" src="../../assets/img/play.png" />
+                <img class="author-img" src="@/assets/img/play.png" />
             </div>
         </div>
         <div class="video-by offline">&nbsp;</div>
-        <div class="video-name">{{ props.playList.name }}</div>
+        <div class="video-name">{{ name }}</div>
         <!-- <div class="video-view">
             42K views<span class="seperate video-seperate"></span>1 week ago
         </div> -->
@@ -18,12 +18,27 @@
 </template>
 
 <script setup>
-import { computed } from 'vue';
-const props = defineProps(['playList']);
+import { computed, onMounted } from 'vue';
+const props = defineProps(['viedo', 'MV']);
+let count = $ref(1);
+let name = $ref('');
+if (props.viedo) {
+    count = '歌曲数量:' + props.viedo.trackCount;
+    name = props.viedo.name;
+} else {
+    count = `播放次数:${props.MV.playCount}`;
+    name = props.MV.name;
+}
 const bgImage = computed(() => {
-    return {
-        backgroundImage: `url('${props.playList.picUrl}')`,
-    };
+    if (props.viedo) {
+        return {
+            backgroundImage: `url('${props.viedo.picUrl}')`,
+        };
+    } else {
+        return {
+            backgroundImage: `url('${props.MV.imgurl}')`,
+        };
+    }
 });
 </script>
 
@@ -40,7 +55,7 @@ const bgImage = computed(() => {
     }
 }
 .author {
-    animation: bottom .2s;
+    animation: bottom 0.2s;
     &-img {
         width: 26px;
         height: 26px;
@@ -104,13 +119,9 @@ const bgImage = computed(() => {
         line-height: 1.4em;
         padding: 12px 20px 0;
         overflow: hidden;
-        // background-color: #252936;
-        // background-color: #95a5a6;
         z-index: 9;
         position: relative;
-        display: -webkit-box;
-        -webkit-line-clamp: 2;
-        -webkit-box-orient: vertical;
+        bottom:4px;
     }
     &-view {
         font-size: 12px;

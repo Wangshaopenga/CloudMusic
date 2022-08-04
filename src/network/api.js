@@ -125,9 +125,9 @@ export const comment = (id, offset) => {
 };
 
 //获取歌手mv
-export const getSingerMV = (id, limit) => {
+export const getSingerMV = (id, offset = 0, limit = 16) => {
     return request({
-        url: `/artist/mv?id=${id}&limit=${limit}`,
+        url: `/artist/mv?id=${id}&limit=${limit}&offset=${offset}`,
         method: 'GET',
     });
 };
@@ -163,3 +163,9 @@ export const getSingerDetail = (id) => {
         method: 'GET',
     });
 };
+
+export function getSingerDesc(id) {
+    return request({
+        url: `/artist/desc?id=${id}`,
+    });
+}

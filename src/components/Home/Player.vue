@@ -332,20 +332,12 @@
                     class="singer"
                     v-if="JSON.stringify(info.songInfo) != '{}'">
                     <span
-                        class="couldSkip"
-                        @click="toSingerDetails(info.songInfo.ar[0].id)">
-                        {{ info.songInfo.ar[0].name }}
+                        style="cursor: pointer"
+                        @click="goSingerDetail(a)"
+                        v-for="(a, index) in info.songInfo.ar"
+                        :key="index"
+                        v-html="index == 0 ? a.name : ' / ' + a.name">
                     </span>
-                    <span
-                        v-for="(a, index) in info.songInfo.ar.slice(1)"
-                        :key="index">
-                        /
-                        <span
-                            class="couldSkip"
-                            @click="toSingerDetails(a.id)"
-                            >{{ a.name }}</span
-                        ></span
-                    >
                 </div>
                 <!-- 没有歌曲时显示 -->
                 <div v-if="JSON.stringify(info.songInfo) == '{}'" class="none">
@@ -491,12 +483,13 @@
                             label="歌手"
                             align="left">
                             <template #default="scope">
-                                {{ scope.row.ar[0].name }}
                                 <span
-                                    v-for="(a, index) in scope.row.ar.slice(1)"
-                                    :key="index">
-                                    /
-                                    <span>{{ a.name }}</span>
+                                    @click="goSingerDetail(a)"
+                                    v-for="(a, index) in scope.row.ar"
+                                    :key="index"
+                                    v-html="
+                                        index == 0 ? a.name : ' / ' + a.name
+                                    ">
                                 </span>
                             </template>
                         </el-table-column>
@@ -567,8 +560,8 @@ const frostedGlass = computed(() => {
         return 'frostedGlass';
     }
 });
-const f = () => {
-    console.log(123);
+const goSingerDetail = (p) => {
+    router.push({ name: 'singer', query: { id: p.id } });
 };
 //播放器
 let music = $ref('');
@@ -1182,9 +1175,6 @@ const roll = (el, target, direction) => {
             }
             .singer {
                 font-size: 13px;
-            }
-            .couldSkip {
-                cursor: pointer;
             }
         }
         .download {

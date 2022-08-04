@@ -91,7 +91,7 @@ const props = defineProps(['data', 'album']);
 const store = useStore();
 let showMore = $ref();
 showMore = props.album
-    ? props.album.songs.length <= 10
+    ? props.album.songs.length > 10
     : props.data.length > 10;
 //秒数转化为mm:ss形式
 const toTime = (sec) => {

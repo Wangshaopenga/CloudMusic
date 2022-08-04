@@ -102,7 +102,7 @@ const props = defineProps({
     display: flex;
     flex-direction: column;
     flex-shrink: 0;
-    transition-duration: 0.2s;
+    transition-duration: 0.1s;
     overflow: hidden;
     color: #5a5b60;
     border-right: 1px solid rgb(128 129 145 / 24%);

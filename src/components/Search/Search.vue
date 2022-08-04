@@ -3,7 +3,6 @@
         <div class="header">
             <h2>搜索 {{ route.query.key }}</h2>
         </div>
-
         <div
             class="content"
             v-loading="isLoading"
@@ -61,7 +60,11 @@
                 </div>
             </div>
             <div class="author" v-else-if="type == 100">
-                <div class="row" v-for="itme in artists" :key="itme.id">
+                <div
+                    class="row"
+                    @click="goSingerDetail(itme)"
+                    v-for="itme in artists"
+                    :key="itme.id">
                     <img
                         :src="itme.picUrl"
                         style="width: 80px; height: 80px"
@@ -102,6 +105,9 @@ const init = () => {
     search(route.query.key, page - 1, 100).then((res) => {
         artists = res.result.artists;
     });
+};
+const goSingerDetail = (p) => {
+    router.push({ name: 'singer', query: { id: p.id } });
 };
 watch(
     () => route.query.key,

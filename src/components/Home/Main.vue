@@ -10,7 +10,7 @@
                 class="anim"
                 v-for="p in data"
                 :key="p.id"
-                :playList="p"></Video>
+                :viedo="p"></Video>
         </div>
         <div v-if="data.length != 0" ref="bottom" class="bottom">
             <loading-one class="rotate" theme="outline" size="24" fill="#333" />
@@ -25,7 +25,7 @@ import Slider from './Slider.vue';
 import { LoadingOne } from '@icon-park/vue-next';
 import { getPersonalized } from '@/network/api';
 import { useIntersectionObserver } from '@vueuse/core';
-import { ref, } from 'vue';
+import { ref } from 'vue';
 const bottom = ref();
 let data = $ref([]);
 useIntersectionObserver(bottom, ([{ isIntersecting }], observerElement) => {
@@ -253,96 +253,6 @@ getPersonalized().then((res) => {
         grid-template-columns: repeat(2, 1fr);
     }
 }
-//video.vue
-.video {
-    position: relative;
-    background-color: #252936;
-    border-radius: 20px;
-    overflow: hidden;
-    transition: 0.4s;
-    &-wrapper {
-        position: relative;
-    }
-    &-name {
-        color: #fff;
-        font-size: 16px;
-        line-height: 1.4em;
-        padding: 12px 20px 0;
-        overflow: hidden;
-        background-color: #252936;
-        z-index: 9;
-        position: relative;
-        display: -webkit-box;
-        -webkit-line-clamp: 2;
-        -webkit-box-orient: vertical;
-    }
-    &-view {
-        font-size: 12px;
-        padding: 12px 20px 20px;
-        background-color: #252936;
-        position: relative;
-    }
-    &-by {
-        transition: 0.3s;
-        padding: 20px 20px 0px;
-        display: inline-flex;
-        position: relative;
-        &:before {
-            content: '';
-            background-color: #22b07d;
-            width: 6px;
-            height: 6px;
-            border-radius: 50%;
-            position: absolute;
-            top: 26px;
-            right: 5px;
-        }
-        &.offline:before {
-            background-color: #ff7551;
-        }
-    }
-    &-time {
-        position: absolute;
-        background: rgba(21, 13, 13, 0.44);
-        color: rgb(255 255 255 / 85%);
-        padding: 3px 8px;
-        font-size: 12px;
-        border-radius: 6px;
-        top: 10px;
-        z-index: 1;
-        right: 8px;
-    }
-    &:hover {
-        video {
-            transform: scale(1.6);
-            transform-origin: center;
-        }
-        .video-time {
-            display: none;
-        }
-        .video-author {
-            bottom: -65px;
-            transform: scale(0.6);
-            right: -3px;
-            z-index: 10;
-        }
-        .video-by {
-            opacity: 0;
-        }
-    }
-    &-author {
-        position: absolute;
-        right: 10px;
-        transition: 0.4s;
-        bottom: -25px;
-        svg {
-            background-color: #0aa0f7;
-            color: #fff;
-            border-color: #252936;
-        }
-    }
-}
-
 video {
     max-width: 100%;
     width: 100%;

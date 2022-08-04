@@ -49,10 +49,8 @@
                     <li @click="type = 1" :class="{ active: type == 1 }">
                         专辑
                     </li>
-                    <li @click="type = 1000" :class="{ active: type == 1000 }">
-                        MV
-                    </li>
-                    <li @click="type = 100" :class="{ active: type == 100 }">
+                    <li @click="type = 2" :class="{ active: type == 2 }">MV</li>
+                    <li @click="type = 3" :class="{ active: type == 3 }">
                         歌手详情
                     </li>
                 </ul>
@@ -60,7 +58,13 @@
             <div v-show="type == 1" class="album">
                 <Album :data="hotSongs" />
                 <Album v-for="itme in showAlbums" :key="itme" :album="itme" />
-                <div v-if="hotSongs.length != 0" ref="bottom" class="bottom">
+                <div
+                    v-if="
+                        hotSongs.length != 0 &&
+                        showAlbums.length != albums.length
+                    "
+                    ref="songBottom"
+                    class="bottom">
                     <loading-one
                         class="rotate"
                         theme="outline"
@@ -69,58 +73,124 @@
                     数据加载中...
                 </div>
             </div>
+            <div v-show="type == 2" class="MV">
+                <div class="viedo">
+                    <Video
+                        v-if="singerMV"
+                        v-for="itme in singerMV"
+                        :key="itme.id"
+                        :MV="itme"></Video>
+                </div>
+                <div
+                    v-if="singerMV && singerMV.length != singerInfo.mvSize"
+                    ref="MVBottom"
+                    class="bottom">
+                    <loading-one
+                        class="rotate"
+                        theme="outline"
+                        size="24"
+                        fill="#333" />
+                    数据加载中...
+                </div>
+            </div>
+            <div v-if="type == 3" class="singerDetail">
+                <div class="briefDesc">
+                    <h4>{{ singerInfo.name }}简介</h4>
+                    <p style="white-space: pre-wrap">
+                        {{ singerDesc.briefDesc }}
+                    </p>
+                </div>
+                <div
+                    v-for="itme in singerDesc.introduction"
+                    :key="itme"
+                    class="desc">
+                    <h4>{{ itme.ti }}</h4>
+                    <p style="white-space: pre-wrap" v-html="itme.txt"></p>
+                </div>
+            </div>
         </div>
     </div>
 </template>
 
 <script setup>
 import Album from '@/components/Album.vue';
+import Video from './Home/Video.vue';
 import {
     getHotSong,
     getSingerCollection,
     getCollectionDetail,
+    getSingerMV,
+    getSingerDesc,
 } from '@/network/api';
-import { onMounted, ref, } from 'vue';
+import { onMounted, ref, watch } from 'vue';
 import { LoadingOne } from '@icon-park/vue-next';
 import { useIntersectionObserver } from '@vueuse/core';
 import { useRoute } from 'vue-router';
-let type = $ref('1');
+let type = $ref(1);
 let hotSongs = $ref([]);
 let albums = $ref([]);
 let showAlbums = $ref([]);
-let bottom = ref();
+let songBottom = ref();
+let MVBottom = ref();
 let count = $ref(3);
 let singerInfo = $ref({});
 let isLoading = $ref(true);
+let singerMV = $ref();
+let singerDesc = $ref();
 const route = useRoute();
 onMounted(() => {
     init();
 });
-useIntersectionObserver(bottom, ([{ isIntersecting }], observerElement) => {
+watch(
+    () => route.query.id,
+    () => {
+        isLoading = true;
+        init();
+    }
+);
+useIntersectionObserver(songBottom, ([{ isIntersecting }], observerElement) => {
     if (isIntersecting && count < albums.length) {
         getCollectionDetail(albums[count++].id).then((res) => {
             showAlbums.push(res);
+        });
+        getCollectionDetail(albums[count++].id).then((res) => {
+            showAlbums.push(res);
+        });
+    }
+});
+useIntersectionObserver(MVBottom, ([{ isIntersecting }], observerElement) => {
+    if (isIntersecting) {
+        let cnt = singerMV.length;
+        getSingerMV(route.query.id, cnt).then((res) => {
+            singerMV = [...singerMV, ...res.mvs];
         });
     }
 });
 const init = () => {
     getHotSong(route.query.id).then((res) => {
         singerInfo = res.artist;
-        console.log(singerInfo);
         hotSongs = res.hotSongs;
         getSingerCollection(route.query.id).then((res) => {
-            getCollectionDetail(res.hotAlbums[0].id).then((res) => {
-                showAlbums.push(res);
-            });
-            getCollectionDetail(res.hotAlbums[1].id).then((res) => {
-                showAlbums.push(res);
-            });
-            getCollectionDetail(res.hotAlbums[2].id).then((res) => {
-                showAlbums.push(res);
-            });
-            albums = res.hotAlbums;
+            if (res.hotAlbums.length != 0) {
+                getCollectionDetail(res.hotAlbums[0].id).then((res) => {
+                    showAlbums.push(res);
+                });
+                getCollectionDetail(res.hotAlbums[1].id).then((res) => {
+                    showAlbums.push(res);
+                });
+                getCollectionDetail(res.hotAlbums[2].id).then((res) => {
+                    showAlbums.push(res);
+                });
+                albums = res.hotAlbums;
+            }
             isLoading = false;
         });
+    });
+    getSingerMV(route.query.id).then((res) => {
+        singerMV = res.mvs;
+    });
+    getSingerDesc(route.query.id).then((res) => {
+        singerDesc = res;
     });
 };
 </script>
@@ -216,15 +286,46 @@ const init = () => {
                 }
             }
         }
+        .MV {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            flex-direction: column;
+            .viedo {
+                padding: 10px;
+                display: grid;
+                width: 100%;
+                grid-template-columns: repeat(4, 1fr);
+                grid-column-gap: 20px;
+                grid-row-gap: 20px;
+                @media screen and (max-width: 1010px) {
+                    grid-template-columns: repeat(2, 1fr);
+                }
+                @media screen and (max-width: 750px) {
+                    grid-template-columns: 1fr;
+                }
+            }
+        }
+        .singerDetail {
+            padding: 0 30px;
+            h4 {
+                color: #333;
+            }
+            p {
+                text-indent: 2em;
+                font-size: 16px;
+                color: #666;
+            }
+        }
     }
 }
 .bottom {
-    margin-top: 20px;
-    width: 100%;
     height: 30px;
     text-align: center;
     line-height: 30px;
     overflow: hidden;
+    margin: 0 auto;
+    margin-top: 20px;
 }
 .rotate {
     animation: rotate 2s linear infinite;
